@@ -4,6 +4,7 @@
 #include <sstream>
 #include <cstdlib>
 #include <cctype>
+#include "textGraphics.h"
 using namespace std;
 
 namespace DV_STF
