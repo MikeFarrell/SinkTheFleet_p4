@@ -14,7 +14,7 @@
 #include "cshipinfo.h"
 #include "cplayer.h"
 #include "csinkthefleet.h"
-//#include "textGraphics.h"
+#include "textGraphics.h"
 //#include "safeio.h"
 
 using namespace std;
