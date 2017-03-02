@@ -1,10 +1,7 @@
+#ifndef CSHIP
+#define CSHIP
 
-#include <iostream>
-#include <string>
-#include <sstream>
-#include <cstdlib>
-#include <cctype>
-#include "textGraphics.h"
+#include "oop.h"
 using namespace std;
 
 namespace DV_STF
@@ -41,3 +38,4 @@ enum Ship
 	HIT,		 // 6 (6-7)-- used only for other side
 	MISSED,		 // 7 
 };
+#endif
