@@ -12,5 +12,11 @@ namespace DV_STF
 	private:
 		Direction m_direction;
 	};
+	
+	enum Direction
+	{
+		HORIZONTAL, // 0
+		VERTICAL	// 1
+	};
 }
 #endif
