@@ -7,27 +7,31 @@ using namespace std;
 
 namespace DV_STF
 {
-public:
-	
-	CDirection() { m_direction = HORIZONTAL;}			// Default constructor
-	~CDirection() {};									// Destructor
-	operator Direction() const { return m_direction; }	// Cast 
+	class CDirection
+	{
+	public:
 
-	// Print 
-	void print(ostream& os) const { (m_direction == VERTICAL) ? os << 'V' : os << 'H'; }
-	void print(void) const { (m_direction == VERTICAL) ? cout << 'V' : cout << 'H'; }
-	//Related functions?? should these be public?
-	ostream& operator<<(ostream& os) { print(os); return os; }
-	istream& operator>>(istream& is) {}
-private:
-	Direction m_direction;							// HORIZONTAL or VERTICAL
+		CDirection() { m_direction = HORIZONTAL; }			// Default constructor
+		~CDirection() {};									// Destructor
+		operator Direction() const { return m_direction; }	// Cast 
+
+															// Print 
+		void print(ostream& os) const { (m_direction == VERTICAL) ? os << 'V' : os << 'H'; }
+		void print(void) const { (m_direction == VERTICAL) ? cout << 'V' : cout << 'H'; }
+		//Related functions?? should these be public?
+		ostream& operator<<(ostream& os) { print(os); return os; }
+		istream& operator >> (istream& is) {}
+	private:
+		Direction m_direction;							// HORIZONTAL or VERTICAL
+	};
+	//----------------------------------------------------------------------------
+	// enumerated type for direction on grid
+	//----------------------------------------------------------------------------
+	enum Direction
+	{
+		HORIZONTAL, // 0
+		VERTICAL	// 1
+	};
 }
-//----------------------------------------------------------------------------
-// enumerated type for direction on grid
-//----------------------------------------------------------------------------
-enum Direction
-{
-	HORIZONTAL, // 0
-	VERTICAL	// 1
-};
+
 #endif
