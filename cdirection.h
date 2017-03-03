@@ -22,7 +22,6 @@ public:
 private:
 	Direction m_direction;							// HORIZONTAL or VERTICAL
 }
-#endif
 //----------------------------------------------------------------------------
 // enumerated type for direction on grid
 //----------------------------------------------------------------------------
@@ -31,3 +30,4 @@ enum Direction
 	HORIZONTAL, // 0
 	VERTICAL	// 1
 };
+#endif
