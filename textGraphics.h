@@ -38,12 +38,12 @@ const unsigned char CENTER = 'C';	// center alignment
 const short MAX_LINE_LENGTH = 79;	// longest line allowed
 const int OFFSET = 2;			// number of start & end chars
 
-								// prints the top line of a box
+// prints the top line of a box
 void boxTop(ostream& sout, unsigned short length);
 // prints the bottom line of a box
 void boxBottom(ostream& sout, unsigned short length);
 // prints text line of a box
-void boxLine(ostream& sout, const string& text, unsigned short length,
-	unsigned char alignment = 'L', char fillc = ' ');
+void boxLine(ostream& sout, const string& text, unsigned short length, 
+	unsigned char alignment = 'L', char fillc = ' ' ); 
 
 #endif
