@@ -4,6 +4,8 @@
 #include <iostream>
 #include <iomanip>
 
+using namespace std;
+
 namespace DV_STF
 {
 	enum Direction
@@ -20,11 +22,17 @@ namespace DV_STF
 		~CDirection() {};									// Destructor
 		operator Direction() const { return m_direction; }	// Cast 
 
-															// Print 
-		void print(std::ostream& os) const {}
+															
+		void print(ostream& os) const { (m_direction == VERTICAL) ?
+			os << 'V' : os << 'H'; }	// Print 
 		void print() const { print(std::cout); }
+
+
 	private:
 		Direction m_direction;							// HORIZONTAL or VERTICAL
 	};
+
+	ostream& operator<<(ostream& os, const CDirection & dir);
+	istream& operator>>(istream& is, CDirection & dir);
 }
 #endif
