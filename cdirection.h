@@ -1,6 +1,9 @@
 #ifndef CDIRECTION
 #define CDIRECTION
 
+#include <iostream>
+#include <iomanip>
+
 namespace DV_STF
 {
 	enum Direction
@@ -9,21 +12,17 @@ namespace DV_STF
 		VERTICAL	// 1
 	};
 
-
 	class CDirection
 	{
 	public:
 
-		CDirection() { m_direction = HORIZONTAL; }			// Default constructor
+		CDirection() {}			// Default constructor
 		~CDirection() {};									// Destructor
 		operator Direction() const { return m_direction; }	// Cast 
 
-																		// Print 
-		void print(ostream& os) const { (m_direction == VERTICAL) ? os << 'V' : os << 'H'; }
-		void print(void) const { (m_direction == VERTICAL) ? cout << 'V' : cout << 'H'; }
-		//Related functions?? should these be public?
-		ostream& operator<<(ostream& os) { print(os); return os; }
-		istream& operator >> (istream& is) {}
+															// Print 
+		void print(std::ostream& os) const {}
+		void print() const { print(std::cout); }
 	private:
 		Direction m_direction;							// HORIZONTAL or VERTICAL
 	};

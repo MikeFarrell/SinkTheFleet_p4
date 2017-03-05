@@ -1,13 +1,15 @@
 #ifndef CPLAYER
 #define CPLAYER
 #include "cshipinfo.h"
-//#include "cship.h"
+#include "cship.h"
+
 
 namespace DV_STF
 {
 	class CPlayer
 	{
-		CPlayer();
+	public:
+		CPlayer() {}
 
 	private:
 		unsigned short m_whichPlayer;

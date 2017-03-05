@@ -1,10 +1,9 @@
 #ifndef CSHIP
 #define CSHIP
 
-using namespace std;
-
-#include <ostream>
 #include <iostream>
+#include <iomanip>
+#include <string>
 
 namespace DV_STF
 {
@@ -23,24 +22,25 @@ namespace DV_STF
 
 	
 
+
 	class CShip
 	{
 	public:
 		CShip(Ship ship = NOSHIP)
 			: m_ship(ship) {}
 
-		operator Ship() const { return m_ship; }
+		//operator Ship() const { return m_ship; }
 
-		void print(ostream & sout) const;
-		void print() const { print(cout); }
-		void printName(ostream & sout) const;
+		void print(std::ostream & sout) const;
+		void print() const { print(std::cout); }
+		void printName(std::ostream & sout) const;
 
 	private:
 		Ship m_ship;
 
 	};
 
-	ostream &operator << (ostream &sout, const CShip &ship);
-	istream &operator >> (istream &sin, CShip &ship);
+	//ostream &operator << (ostream &sout, const CShip &ship);
+	//istream &operator >> (istream &sin, CShip &ship);
 }
 #endif

@@ -1,6 +1,7 @@
 #ifndef CSINKTHEFLEET
 #define CSINKTHEFLEET
 
+
 #include <iostream>
 #include <fstream>
 #include <cctype>
@@ -14,11 +15,12 @@ namespace DV_STF
 {
 	class CSinkTheFleet
 	{
+	public:
 		CSinkTheFleet(char gridSize = 'L') 
 			: m_gridSize(gridSize) {};
 
 	private:
-		//CPlayer m_players[2];
+		CPlayer m_players[2];
 		char m_gridSize;
 	};
 }

@@ -1,6 +1,7 @@
 #ifndef CSHIPINFO
 #define CSHIPINFO
 
+
 #include "cdirection.h"
 #include "ccell.h"
 #include "cship.h"
@@ -9,7 +10,8 @@ namespace DV_STF
 {
 	class CShipInfo
 	{
-		CShipInfo();
+	public:
+		CShipInfo() {}
 
 	private:
 		CShip m_name;

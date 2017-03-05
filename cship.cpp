@@ -1,11 +1,14 @@
 #include "cship.h"
 #include "textGraphics.h"
-#include "global.h"
+//#include "global.h"
+
 
 namespace DV_STF
 {
-
-	
+	const short SHIP_SIZE_ARRAYSIZE = 6;
+	const char* shipNames[SHIP_SIZE_ARRAYSIZE] =
+	{ "No Ship", "Mine Sweeper", "Submarine", "Frigate",
+		"Battleship", "Aircraft Carrier" };
 
 	void CShip::print(ostream & sout) const
 	{
@@ -35,7 +38,7 @@ namespace DV_STF
 
 	void CShip::printName(ostream & sout) const
 	{
-		//sout << shipNames[m_ship];
+		sout << shipNames[m_ship];
 	}
 
 	ostream &operator << (ostream &sout, const CShip &ship)
