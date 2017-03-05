@@ -6,6 +6,8 @@
 #include "ccell.h"
 #include "cship.h"
 
+using namespace std;
+
 namespace DV_STF
 {
 	class CShipInfo

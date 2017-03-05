@@ -4,6 +4,7 @@
 #include "cship.h"
 #include "cdirection.h"
 
+using namespace std;
 
 namespace DV_STF
 {

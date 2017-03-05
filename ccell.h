@@ -1,13 +1,14 @@
 #ifndef CCELL
 #define CCELL
 
-
+using namespace std;
 namespace DV_STF
 {
 	class CCell
 	{
 	public:
-		CCell();
+		CCell() {};
+		~CCell() {};
 		unsigned short get_row() { return m_row; }
 		unsigned short get_col() { return m_col; }
 

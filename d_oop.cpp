@@ -3,13 +3,11 @@
 #include "textGraphics.h"
 
 
-using namespace DV_STF;
-
-
+using namespace std;
 
 int main()
 {
-	//CSinkTheFleet j;
+	DV_STF::CSinkTheFleet j;
 	char again = 'N';
 
 	do {
