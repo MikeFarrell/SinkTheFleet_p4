@@ -1,14 +1,10 @@
 #include "cship.h"
 #include "textGraphics.h"
-//#include "global.h"
 
-
+using namespace std;
 namespace DV_STF
 {
-	const short SHIP_SIZE_ARRAYSIZE = 6;
-	const char* shipNames[SHIP_SIZE_ARRAYSIZE] =
-	{ "No Ship", "Mine Sweeper", "Submarine", "Frigate",
-		"Battleship", "Aircraft Carrier" };
+	
 
 	void CShip::print(ostream & sout) const
 	{
@@ -55,8 +51,8 @@ namespace DV_STF
 
 		for (short i = 0; i < SHIP_SIZE_ARRAYSIZE; i++)
 		{
-			std::size_t found = str.find(shipNames[i]);
-			if (found != std::string::npos)
+			size_t found = str.find(shipNames[i]);
+			if (found != string::npos)
 				ship = CShip(static_cast<Ship>(i));
 		}
 		return sin;

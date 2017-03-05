@@ -5,6 +5,8 @@
 #include <iomanip>
 #include <string>
 
+using namespace std;
+
 namespace DV_STF
 {
 
@@ -21,7 +23,10 @@ namespace DV_STF
 	};
 
 	
-
+	static const short SHIP_SIZE_ARRAYSIZE = 6;
+	static const char* shipNames[SHIP_SIZE_ARRAYSIZE] =
+	{ "No Ship", "Mine Sweeper", "Submarine", "Frigate",
+		"Battleship", "Aircraft Carrier" };
 
 	class CShip
 	{
@@ -40,7 +45,7 @@ namespace DV_STF
 
 	};
 
-	//ostream &operator << (ostream &sout, const CShip &ship);
-	//istream &operator >> (istream &sin, CShip &ship);
+	ostream &operator << (ostream &sout, const CShip &ship);
+	istream &operator >> (istream &sin, CShip &ship);
 }
 #endif
