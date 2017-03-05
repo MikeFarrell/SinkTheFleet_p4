@@ -1,7 +1,7 @@
 #ifndef CPLAYER
 #define CPLAYER
-
-#include "oop.h"
+#include "cshipinfo.h"
+//#include "cship.h"
 
 namespace DV_STF
 {

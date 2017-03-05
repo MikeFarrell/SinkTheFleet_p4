@@ -1,7 +1,9 @@
 #ifndef CSHIPINFO
 #define CSHIPINFO
 
-#include "oop.h"
+#include "cdirection.h"
+#include "ccell.h"
+#include "cship.h"
 
 namespace DV_STF
 {

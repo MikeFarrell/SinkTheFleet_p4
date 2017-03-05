@@ -1,8 +1,6 @@
 #ifndef CCELL
 #define CCELL
 
-#include "oop.h"
-
 namespace DV_STF
 {
 	class CCell
