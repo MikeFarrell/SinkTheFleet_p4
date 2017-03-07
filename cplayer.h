@@ -3,6 +3,7 @@
 #include "cshipinfo.h"
 #include "cship.h"
 #include "cdirection.h"
+#include "safeio.h"
 
 using namespace std;
 
@@ -11,11 +12,16 @@ namespace DV_STF
 	class CPlayer
 	{
 	public:
-		CPlayer() {};
+		CPlayer(unsigned short whichPlayer = 0, char gridSize = 'L') :
+			m_whichPlayer(whichPlayer), m_gridSize(gridSize)
+		{
+
+		}
 		~CPlayer() {};
 		//copy()									//Deep copy
 		//operator=									//Deep copy assignment
 		//Accessors
+
 
 		unsigned short getWhichPlayer() const { return m_whichPlayer; }
 		short getPiecesLeft() const { return m_piecesLeft; }
@@ -32,23 +38,24 @@ namespace DV_STF
 			m_gameGrid[whichGrid][cell.get_row()][cell.get_col()] = ship;
 		} // set the proper cell to ship
 
-		  //printGrid(ostream& os);		 
-		  //getGrid(string filename);					// inputs grid from file
-		  //saveGrid();
-		  //setShips();							// allow player to setup ship
-		  //hitShip(CShip ship);						// Decrement pieces left for ship & for fleet
-		  //bool isValidLocation(short whichShip);			// the index # of which ship in array
-		  //operator[] const; 
-		  //operator--();
+		void printGrid(ostream& os);
+		void getGrid(string filename); //inputs grid from file
+		void saveGrid();
+		void setShips();	//allow player to setup ship
+		void hitShip(CShip ship); //Decrement pieces left for ship & for fleet
+		bool isValidLocation(short whichShip); // the index # of which ship in array
+		CShipInfo operator[](short index) const;
+		CPlayer operator--();
+		CPlayer operator--(int);
 	private:
 		unsigned short m_whichPlayer;
 		short m_piecesLeft;
-		CShipInfo m_ships[6];
+		CShipInfo m_ships[SHIP_SIZE_ARRAYSIZE]; //shipinfo array
 		char m_gridSize;
 		CShip ** m_gameGrid[2];
 
-		//alloc mem
-		//delete mem
+		void allocMem(CPlayer players[], char size); //alloc mem
+		void deleteMem(CPlayer players[], char size);//delete mem
 	};
 }
 #endif
