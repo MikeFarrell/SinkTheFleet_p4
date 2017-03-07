@@ -22,7 +22,15 @@ namespace DV_STF
 		MISSED,		 // 7 
 	};
 
-	
+
+	const short NUMPLAYERS = 2;	// number of players in game
+	const short SMALLROWS = 8;	// number of rows/columns in small sea array 
+	const short LARGEROWS = 10;	// number of rows/columns in large sea array
+	const short SMALLCOLS = 12;	// number of rows/columns in small sea array 
+	const short LARGECOLS = 24;	// number of rows/columns in large sea array
+	const short BOXWIDTH = 79;	// maximum screen line length
+
+	static const short shipSize[SHIP_SIZE_ARRAYSIZE] = { 0, 2, 3, 3, 4, 5 };
 	static const short SHIP_SIZE_ARRAYSIZE = 6;
 	static const char* shipNames[SHIP_SIZE_ARRAYSIZE] =
 	{ "No Ship", "Mine Sweeper", "Submarine", "Frigate",
@@ -34,18 +42,18 @@ namespace DV_STF
 		CShip(Ship ship = NOSHIP)
 			: m_ship(ship) {}
 
-		//operator Ship() const { return m_ship; }
+		operator Ship() const { return m_ship; }
 
-		void print(std::ostream & sout) const;
-		void print() const { print(std::cout); }
-		void printName(std::ostream & sout) const;
+		void print(ostream & sout) const;
+		void print() const { print(cout); }
+		void printName(ostream & sout) const;
 
 	private:
 		Ship m_ship;
 
 	};
 
-	ostream &operator << (ostream &sout, const CShip &ship);
+	ostream &operator << (ostream &sout, const CShip ship);
 	istream &operator >> (istream &sin, CShip &ship);
 }
 #endif

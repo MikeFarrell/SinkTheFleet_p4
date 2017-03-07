@@ -37,7 +37,7 @@ namespace DV_STF
 		sout << shipNames[m_ship];
 	}
 
-	ostream &operator << (ostream &sout, const CShip &ship)
+	ostream &operator << (ostream &sout, const CShip ship)
 	{
 		ship.print(sout);
 		return sout;
