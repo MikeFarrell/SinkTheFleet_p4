@@ -26,7 +26,7 @@ namespace DV_STF
 		return temp;
 	}
 
-
+	// allocMem() original style.  For both players at same time
 	void CPlayer::allocMem(CPlayer players[], char size)
 	{
 		short numberOfRows = (toupper(m_gridSize) == 'L') ? LARGEROWS : SMALLROWS;
@@ -68,7 +68,8 @@ namespace DV_STF
 			exit(EXIT_FAILURE);
 		}
 	}//end void CPlayer::allocMem()
-
+	
+	// deleteMem() original style.  For both players at same time. 
 	void CPlayer::deleteMem(CPlayer players[], char size)
 	{
 		{
@@ -90,6 +91,66 @@ namespace DV_STF
 		}
 	} //end void CPlayer::deleteMem()
 
+	  // the original function took in an array of the old Player struct.
+	  // Changed to work with only 1 player at a time..  
+	  // The CPlayer constructor takes in 'whichPlayer' and then
+	  // the allocMem() is a private function, so I think we may
+	  // have to call these twice, once for each player.
+	void CPlayer::allocMem(void)
+	{
+		short numberOfRows = (toupper(m_gridSize) == 'L') ? LARGEROWS : SMALLROWS;
+		short numberOfCols = (toupper(m_gridSize) == 'L') ? LARGECOLS : SMALLCOLS; // Maybe get rid of all the toupper() further back
+		try
+		{  // Make new memory for each player's game grids. 
+			m_gameGrid[MYGRID] = nullptr;
+			m_gameGrid[MYGRID] = new CShip*[numberOfRows];
+			m_gameGrid[YOURGRID] = nullptr;
+			m_gameGrid[YOURGRID] = new CShip*[numberOfRows];
+			for (short j = 0; j < numberOfRows; ++j)
+			{ // setup array of columns for each grid
+				m_gameGrid[MYGRID][j] = nullptr;
+				m_gameGrid[MYGRID][j] = new CShip[numberOfCols];
+				m_gameGrid[YOURGRID][j] = nullptr;
+				m_gameGrid[YOURGRID][j] = new CShip[numberOfCols];
+				for (short k = 0; k < numberOfCols; ++k)
+				{  // Set initial value
+					m_gameGrid[MYGRID][j][k] = NOSHIP;
+					m_gameGrid[YOURGRID][j][k] = NOSHIP;
+				} // end for k
+			} // end for j
+		}
+		catch (exception e)
+		{
+			deleteMem();
+			cerr << "exception: " << e.what() << endl;
+			cout << "shutting down" << endl;
+			std::cin.ignore(BUFFER_SIZE, '\n');
+			exit(EXIT_FAILURE);
+		}
+	}
+
+	// deleteMem() for 1 player at a time.  
+	void CPlayer::deleteMem(void)
+	{
+		short numberOfRows = (toupper(m_gridSize) == 'L') ? LARGEROWS : SMALLROWS;
+		short numberOfCols = (toupper(m_gridSize) == 'L') ? LARGECOLS : SMALLCOLS;
+		if (m_gameGrid[MYGRID] != nullptr)
+		{
+			for (short j = 0; j < numberOfRows; ++j)
+				if (m_gameGrid[MYGRID][j] != nullptr)
+					delete[] m_gameGrid[MYGRID][j];
+			delete[] m_gameGrid[MYGRID];
+		}
+		if (m_gameGrid[YOURGRID] != nullptr)
+		{
+			for (short j = 0; j < numberOfRows; ++j)
+				if (m_gameGrid[YOURGRID][j] != nullptr)
+					delete[] m_gameGrid[YOURGRID][j];
+			delete[] m_gameGrid[YOURGRID];
+		}
+	}
+
+	// Same as Project 1 except calls a CShip.print() instead of printShip()
 	void CPlayer::printGrid(ostream& os, const short grid) const
 	{
 		short numberOfRows = (toupper(m_gridSize) == 'L') ? LARGEROWS : SMALLROWS;

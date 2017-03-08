@@ -18,7 +18,12 @@ namespace DV_STF
 		CPlayer(unsigned short whichPlayer = 0, char gridSize = 'L') :
 			m_whichPlayer(whichPlayer), m_gridSize(gridSize)
 		{
-
+			// Sets both game grids to NULL and calls allocMem().  The nullptrs are in allocMem() too though?? 
+			// so not exactly sure what he wants here..
+			m_gameGrid[0] = nullptr;
+			m_gameGrid[1] = nullptr;
+			allocMem();
+			//initializeShips() // need something here to 'initialize' player's ship array
 		}
 		~CPlayer() {};
 		//CPlayer copy(void) const;					//Deep copy constructor
@@ -53,9 +58,12 @@ namespace DV_STF
 		CShipInfo m_ships[SHIP_SIZE_ARRAYSIZE]; //shipinfo array
 		char m_gridSize;
 		CShip ** m_gameGrid[2];
-
+		//  For both players at the same time
 		void allocMem(CPlayer players[], char size); //alloc mem
 		void deleteMem(CPlayer players[], char size);//delete mem
+		//  For 1 player at a time
+		void allocMem(void);
+		void deleteMem(void);
 	};
 }
 #endif
