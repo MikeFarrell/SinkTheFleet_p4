@@ -90,7 +90,7 @@ namespace DV_STF
 		}
 	} //end void CPlayer::deleteMem()
 
-	void CPlayer::printGrid(ostream& os, short grid)
+	void CPlayer::printGrid(ostream& os, const short grid) const
 	{
 		short numberOfRows = (toupper(m_gridSize) == 'L') ? LARGEROWS : SMALLROWS;
 		short numberOfCols = (toupper(m_gridSize) == 'L') ? LARGECOLS : SMALLCOLS;
@@ -103,7 +103,7 @@ namespace DV_STF
 		{
 			os << (char)i;					       //print out letter for each row
 			for (short col = 0; col < numberOfCols; col++)
-				m_gameGrid[row][col]->print();          //Print char code for ship		
+				m_gameGrid[grid][row][col].print();          //Print char code for ship		
 			os << endl << HORIZ;						//Print out horizontal bar
 			for (short h = 0; h < numberOfCols; h++)
 				os << HORIZ << HORIZ << CR;
@@ -112,17 +112,15 @@ namespace DV_STF
 	}
 
 
-	// getGrid() send it the filename to open.  Returns true if file loaded ok
-	bool CPlayer::getGrid(string fileName)
+	// getGrid() send it the filename to open.  Returns true if file loaded ok.  
+	// We might need to rearrange some stuff, depending on the grid size..
+	// This is setup to read in the gridsize char first, then if that doesn't
+	// match the size the user already selected, it will return false. 
+	bool CPlayer::getGrid(const string  & fileName)
 	{
-		string line;
 		ifstream ifs;
-		Ship ship = NOSHIP;
-		short shipCount[SHIP_SIZE_ARRAYSIZE] = { 0 };
 		char cell = ' ';
 		char fsize = 'S';
-		short numberOfRows = (toupper(m_gridSize) == 'L') ? LARGEROWS : SMALLROWS;
-		short numberOfCols = (toupper(m_gridSize) == 'L') ? LARGECOLS : SMALLCOLS;
 		try
 		{
 			ifs.open(fileName.c_str());
@@ -142,12 +140,14 @@ namespace DV_STF
 			return false;
 		}
 		// your code goes here ...
-		fsize = ifs.get(); //get char from filestream 
-		if (fsize != m_gridSize)
+		fsize = ifs.get();		 //get char from filestream 
+		if (fsize != m_gridSize) // checks if file gridsize matches size user already selected
 		{
-
 			return false;
 		}
+		m_gridSize = fsize;
+		short numberOfRows = (toupper(m_gridSize) == 'L') ? LARGEROWS : SMALLROWS;
+		short numberOfCols = (toupper(m_gridSize) == 'L') ? LARGECOLS : SMALLCOLS;
 		string tempString = ""; 
 		getline(ifs, tempString);
 		getline(ifs, tempString);  //get first line of numbers representing columns
@@ -169,48 +169,48 @@ namespace DV_STF
 				switch (cell)  // Mark cell on players game grid, set Ship struct properties on first pass
 				{
 				case ' ': 
-					m_gameGrid[0][row][col] = NOSHIP;
+					m_gameGrid[MYGRID][row][col] = NOSHIP;
 					break;
-				case 'M': m_gameGrid[0][row][col] = MINESWEEPER;
+				case 'M': m_gameGrid[MYGRID][row][col] = MINESWEEPER;
 					if (minesweeperFound == false)
 					{
-						orientation = (m_gameGrid[0][row][col + 1] == 'M') ? HORIZONTAL : VERTICAL;
+						orientation = (m_gameGrid[MYGRID][row][col + 1] == 'M') ? HORIZONTAL : VERTICAL;
 						CDirection dir(orientation);
 						setShipInfo(dir, tempCell, MINESWEEPER, shipSize[static_cast<short>(MINESWEEPER)]);
 						minesweeperFound = true;
 					}
 					break;
-				case 'S': m_gameGrid[0][row][col] = SUB;
+				case 'S': m_gameGrid[MYGRID][row][col] = SUB;
 					if (subFound == false)
 					{
-						orientation = (m_gameGrid[0][row][col + 1] == 'S') ? HORIZONTAL : VERTICAL;
+						orientation = (m_gameGrid[MYGRID][row][col + 1] == 'S') ? HORIZONTAL : VERTICAL;
 						CDirection dir(orientation);
 						setShipInfo(dir, tempCell, SUB, shipSize[static_cast<short>(SUB)]);
 						subFound = true;
 					}
 					break;
-				case 'F': m_gameGrid[0][row][col] = FRIGATE;
+				case 'F': m_gameGrid[MYGRID][row][col] = FRIGATE;
 					if (frigateFound == false)
 					{
-						orientation = (m_gameGrid[0][row][col + 1] == 'F') ? HORIZONTAL : VERTICAL;
+						orientation = (m_gameGrid[MYGRID][row][col + 1] == 'F') ? HORIZONTAL : VERTICAL;
 						CDirection dir(orientation);
 						setShipInfo(dir, tempCell, FRIGATE, shipSize[static_cast<short>(FRIGATE)]);
 						frigateFound = true;
 					}
 					break;
-				case 'B': m_gameGrid[0][row][col] = BATTLESHIP;
+				case 'B': m_gameGrid[MYGRID][row][col] = BATTLESHIP;
 					if (battleshipFound == false)
 					{
-						orientation = (m_gameGrid[0][row][col + 1] == 'B') ? HORIZONTAL : VERTICAL;
+						orientation = (m_gameGrid[MYGRID][row][col + 1] == 'B') ? HORIZONTAL : VERTICAL;
 						CDirection dir(orientation);
 						setShipInfo(dir, tempCell, BATTLESHIP, shipSize[static_cast<short>(BATTLESHIP)]);
 						battleshipFound = true;
 					}
 					break;
-				case 'C': m_gameGrid[0][row][col] = CARRIER;
+				case 'C': m_gameGrid[MYGRID][row][col] = CARRIER;
 					if (carrierFound == false)
 					{
-						orientation = (m_gameGrid[0][row][col + 1] == 'C') ? HORIZONTAL : VERTICAL;
+						orientation = (m_gameGrid[MYGRID][row][col + 1] == 'C') ? HORIZONTAL : VERTICAL;
 						CDirection dir(orientation);
 						setShipInfo(dir, tempCell, CARRIER, shipSize[static_cast<short>(CARRIER)]);
 						carrierFound = true;
@@ -223,11 +223,12 @@ namespace DV_STF
 			}
 			getline(ifs, tempString); // junk line
 		}
-		m_gridSize = fsize;
 		printGrid(cout, m_whichPlayer);
 		ifs.close();
 		return true;
 	}
+
+	// setShipInfo.  Loads up m_ships array. 
 	void CPlayer::setShipInfo(const Direction & dir, const CCell & cell, 
 		const Ship & ship, const short & piecesOfShip)
 	{
@@ -235,5 +236,24 @@ namespace DV_STF
 		m_ships[shipNum].setOrientation(dir);
 		m_ships[shipNum].setName((CShip)ship);
 		m_ships[shipNum].setPiecesLeft(piecesOfShip);
+	}
+
+	// saveGrid()
+	void CPlayer::saveGrid(void) const
+	{
+		short numberOfRows = (toupper(m_gridSize) == 'L') ? LARGEROWS : SMALLROWS;
+		short numberOfCols = (toupper(m_gridSize) == 'L') ? LARGECOLS : SMALLCOLS;
+		char c = 'N';
+		string outputFileName;
+		ofstream outputFileStream;						//declare output filestream
+		cout << "PLEASE ENTER OUTPUT FILE NAME (.shp will be added)" << endl;
+		cin >> outputFileName;							   //Get filename from user
+		outputFileName += ".shp";
+		outputFileStream.open(outputFileName);			          //Open filestream
+		outputFileStream << m_gridSize << endl;	   //Output char code for grid size
+		printGrid(outputFileStream, MYGRID);
+		cin.ignore(FILENAME_MAX, '\n');
+		outputFileStream.close();
+		cout << outputFileName << " saved." << endl;
 	}
 }

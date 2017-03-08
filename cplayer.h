@@ -5,6 +5,8 @@
 #include "cdirection.h"
 #include "safeio.h"
 
+#define MYGRID 0
+#define YOURGRID 1
 using namespace std;
 
 namespace DV_STF
@@ -12,37 +14,33 @@ namespace DV_STF
 	class CPlayer
 	{
 	public:
+		//Constructors & Destructors
 		CPlayer(unsigned short whichPlayer = 0, char gridSize = 'L') :
 			m_whichPlayer(whichPlayer), m_gridSize(gridSize)
 		{
 
 		}
 		~CPlayer() {};
-		//CPlayer copy(void) const;									//Deep copy
+		//CPlayer copy(void) const;					//Deep copy constructor
 
 		//operator=									//Deep copy assignment
-		//Accessors
 
-
+		// INLINE 
 		unsigned short getWhichPlayer() const { return m_whichPlayer; }
 		short getPiecesLeft() const { return m_piecesLeft; }
 		char getGridSize() const { return m_gridSize; }
+		CShip getCell(const short & whichGrid, CCell & cell) const
+			{return m_gameGrid[whichGrid][cell.get_row()][cell.get_col()];}
+		void setGridSize(const char size) { m_gridSize = size; }
+		void setCell(const short & whichGrid, CCell & cell, const CShip & ship)
+			{m_gameGrid[whichGrid][cell.get_row()][cell.get_col()] = ship;} // set the proper cell to ship
 
-		CShip getCell(short & whichGrid, CCell & cell) const
-		{
-			return m_gameGrid[whichGrid][cell.get_row()][cell.get_col()];
-		}
-
-		void setGridSize(char size) { m_gridSize = size; }
-		void setCell(short & whichGrid, CCell & cell, CShip & ship)
-		{
-			m_gameGrid[whichGrid][cell.get_row()][cell.get_col()] = ship;
-		} // set the proper cell to ship
-
+		// NON-INLINE
 		void setShipInfo(const Direction & dir, const CCell & cell, const Ship & ship, const short & piecesOfShip);
-		void printGrid(ostream& os, short grid);
-		bool getGrid(string filename); //inputs grid from file
-		void saveGrid();
+		void printGrid(ostream& os, const short grid) const;
+		bool getGrid(const string & filename); //inputs grid from file
+		void saveGrid(void) const;
+		
 		void setShips();	//allow player to setup ship
 		void hitShip(CShip ship); //Decrement pieces left for ship & for fleet
 		bool isValidLocation(short whichShip); // the index # of which ship in array
