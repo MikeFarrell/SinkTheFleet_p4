@@ -34,8 +34,8 @@ namespace DV_STF
 	{
 	public:
 		// Constructor & Destructor
-		CShipInfo(CShip name(), CDirection orientation(), CCell bowlocation(), short piecesleft());
-		: m_name(name), m_orientation(orientation), m_bowlocation(bowlocation), m_piecesleft(piecesleft){};
+		CShipInfo(CShip name, CDirection orientation, CCell bowlocation, short piecesleft)
+			: m_name(name), m_orientation(orientation), m_bowlocation(bowlocation), m_piecesleft(piecesleft) {};
 		CShipInfo() {}; // 
 		~CShipInfo() {};
 		//Prints out the proprties (e.g., "Frigate, located vertically at 
