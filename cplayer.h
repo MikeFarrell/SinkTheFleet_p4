@@ -18,7 +18,8 @@ namespace DV_STF
 
 		}
 		~CPlayer() {};
-		//copy()									//Deep copy
+		//CPlayer copy(void) const;									//Deep copy
+
 		//operator=									//Deep copy assignment
 		//Accessors
 
@@ -38,8 +39,9 @@ namespace DV_STF
 			m_gameGrid[whichGrid][cell.get_row()][cell.get_col()] = ship;
 		} // set the proper cell to ship
 
-		void printGrid(ostream& os);
-		void getGrid(string filename); //inputs grid from file
+		void setShipInfo(const Direction & dir, const CCell & cell, const Ship & ship, const short & piecesOfShip);
+		void printGrid(ostream& os, short grid);
+		bool getGrid(string filename); //inputs grid from file
 		void saveGrid();
 		void setShips();	//allow player to setup ship
 		void hitShip(CShip ship); //Decrement pieces left for ship & for fleet
@@ -59,4 +61,5 @@ namespace DV_STF
 	};
 }
 #endif
+
 

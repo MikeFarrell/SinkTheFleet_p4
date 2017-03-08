@@ -19,12 +19,15 @@ namespace DV_STF
 	public:
 
 		CDirection() {}			// Default constructor
+		CDirection(Direction dir) { m_direction = dir; } // Direction enum constructor
 		~CDirection() {};									// Destructor
 		operator Direction() const { return m_direction; }	// Cast 
 
-															
-		void print(ostream& os) const { (m_direction == VERTICAL) ?
-			os << 'V' : os << 'H'; }	// Print 
+
+		void print(ostream& os) const {
+			(m_direction == VERTICAL) ?
+				os << 'V' : os << 'H';
+		}	// Print 
 		void print() const { print(std::cout); }
 
 
@@ -33,6 +36,7 @@ namespace DV_STF
 	};
 
 	ostream& operator<<(ostream& os, const CDirection & dir);
-	istream& operator>>(istream& is, CDirection & dir);
+	istream& operator >> (istream& is, CDirection & dir);
 }
 #endif
+
