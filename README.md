@@ -1,5 +1,9 @@
 # SinkTheFleet_p4
 
+Hey Mike, so I put up my new CPlayer.cpp file with the validLocation(), but I made a new branch or pull request thing
+because I didn't have the hitShip() and other stuff you just put in.  Can 
+you update it so it has both of our changes? -jr
+
 Hey so I got isValidLocation() done, and did some work on setShips().  I 
 might have to make some changes to save() and getgrid() though. -jr
 
