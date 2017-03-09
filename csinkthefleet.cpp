@@ -20,6 +20,7 @@ namespace DV_STF
 		header(cout);
 		grid_size = safeChoice("Enter desired grid size: ", 'L', 'S');
 		m_players[whichPlayer].setGridSize(grid_size);
+		m_players[!whichPlayer].setGridSize(grid_size);
 		m_gridSize = grid_size;
 
 		for (whichPlayer = 0; whichPlayer < NUMPLAYERS; whichPlayer++)
