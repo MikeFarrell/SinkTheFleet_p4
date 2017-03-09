@@ -1,5 +1,8 @@
 
 # SinkTheFleet_p4
+
+i still have the working version that i have been updating with your changes. Do you guys want to meet up in the lab before class today? I'm good to head over there now with all the files if you want -JW
+
 Is it working for anyone?  Revert back?  Everything was working ok before.. 
 
 well now it's not working. I'm getting hundreds of errors.-jr
