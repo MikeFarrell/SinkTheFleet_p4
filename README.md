@@ -1,5 +1,7 @@
 # SinkTheFleet_p4
 
+well now it's not working. I'm getting hundreds of errors.-jr
+
 i made several changes to Play() in the csinkthefleet.cpp. I will check the changes you committed. -JW
 
 if you want i can start moving your recent changes to my branch and then we can merge it. I have options for excluded ships, verification of ship location, handling for ships out of bounds when reading from file, etc. -JW
