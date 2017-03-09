@@ -60,8 +60,9 @@ namespace DV_STF
 	class CSinkTheFleet
 	{
 	public:
-		CSinkTheFleet(char gridSize = 'L') 
-			: m_gridSize(gridSize) {};
+		//CSinkTheFleet(char gridSize = 'L') 
+			//: m_gridSize(gridSize) {};
+		CSinkTheFleet(char gridSize = 'L');
 
 		short play(); //plays the game
 		CSinkTheFleet operator[](short index); //validate and return m_players[index]

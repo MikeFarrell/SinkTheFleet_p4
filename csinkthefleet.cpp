@@ -14,6 +14,15 @@ using namespace std;
 
 namespace DV_STF
 {
+
+	CSinkTheFleet::CSinkTheFleet(char gridSize)
+	{
+		m_gridSize = toupper(gridSize);
+		CPlayer player1(0, gridSize);
+		CPlayer player2(1, gridSize);
+		m_players[0] = player1;
+		m_players[1] = player2;
+	}
 	//----------------------------------------------------------------------------
 	//	Class:         CSinkTheFleet
 	//	method:        short CSinkTheFleet::play()
