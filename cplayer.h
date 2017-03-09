@@ -54,7 +54,7 @@ namespace DV_STF
 	//			void setGridSize(const char size) { m_gridSize = size; }
 	//			void setCell(const short & whichGrid, CCell & cell, const CShip & ship)
 	//		Non-Inline:
-	//			CPlayer operator=(const CPlayer& old);
+	//			CPlayer & operator=(const CPlayer& old);
 	//			void setShipInfo(const Direction & dir, const CCell & cell, const Ship & ship, const short & piecesOfShip);
 	//			void printGrid(ostream& os, const short grid) const;
 	//			bool getGrid(const string filename); //inputs grid from file
@@ -91,16 +91,13 @@ namespace DV_STF
 			//initializeShips() // need something here to 'initialize' player's ship array
 		}
 
-		CPlayer(const CPlayer& old) 
+		CPlayer(const CPlayer& player)
 		{
-			m_gridSize = old.m_gridSize;
-
-			allocMem();
-			
+			*this = player;
 		}					//Deep copy constructor
 
 		~CPlayer() { deleteMem(); };
-		
+
 
 		//operator=									//Deep copy assignment
 
@@ -109,14 +106,18 @@ namespace DV_STF
 		short getPiecesLeft() const { return m_piecesLeft; }
 		char getGridSize() const { return m_gridSize; }
 		CShip getCell(const short & whichGrid, CCell & cell) const
-			{return m_gameGrid[whichGrid][cell.get_row()][cell.get_col()];}
+		{
+			return m_gameGrid[whichGrid][cell.get_row()][cell.get_col()];
+		}
 
 		void setGridSize(const char size) { m_gridSize = size; }
 		void setCell(const short & whichGrid, CCell & cell, const CShip & ship)
-			{m_gameGrid[whichGrid][cell.get_row()][cell.get_col()] = ship;} // set the proper cell to ship
+		{
+			m_gameGrid[whichGrid][cell.get_row()][cell.get_col()] = ship;
+		} // set the proper cell to ship
 
-		// NON-INLINE
-		CPlayer operator=(const CPlayer& old);
+// NON-INLINE
+		CPlayer & operator=(const CPlayer& old);
 
 		void setShipInfo(const Direction & dir, const CCell & cell, const Ship & ship, const short & piecesOfShip);
 		void printGrid(ostream& os, const short grid) const;

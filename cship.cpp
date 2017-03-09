@@ -1,3 +1,16 @@
+//----------------------------------------------------------------------------
+//	File:		cship.cpp
+//
+//	functions:	
+//			void CShip::print(ostream & sout) const
+//			void CShip::printName(ostream & sout) const
+//			ostream &operator << (ostream &sout, const CShip ship)
+//			istream &operator >> (istream &sin, CShip &ship)
+//
+//
+//
+//----------------------------------------------------------------------------
+
 #include "cship.h"
 #include "textGraphics.h"
 

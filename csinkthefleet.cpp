@@ -1,3 +1,14 @@
+//----------------------------------------------------------------------------
+//	File:		csinkthefleet.cpp
+//
+//	functions:	
+//			short CSinkTheFleet::play()
+//			void CSinkTheFleet::header(ostream& sout)
+//			void CSinkTheFleet::endBox(short player)
+//			
+//			
+//----------------------------------------------------------------------------
+
 #include "csinkthefleet.h"
 
 using namespace std;

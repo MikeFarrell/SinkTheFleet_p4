@@ -2,8 +2,8 @@
 //	File:		cshipinfo.cpp
 //
 //	functions:	
-//			void CShipInfo::Angle(double angle_rad)
-//			ostream &operator << (ostream &sout, const Angle &ang)
+//			void CShipInfo::print(ostream & os) 
+//			ostream & operator<<(ostream & os, CShipInfo theShip)
 //			
 //----------------------------------------------------------------------------
 

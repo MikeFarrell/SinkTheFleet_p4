@@ -1,3 +1,26 @@
+//----------------------------------------------------------------------------
+//	File:		cplayer.cpp
+//
+//	functions:	
+//			CPlayer & CPlayer::operator=(const CPlayer & player)
+//			CShipInfo CPlayer::operator[](short index) const
+//			CPlayer CPlayer::operator--()
+//			CPlayer CPlayer::operator--(int)
+//			void CPlayer::hitShip(CShip ship)
+//			void CPlayer::setShips()
+//			bool CPlayer::isValidLocation(short whichShip)
+//			void CPlayer::allocMem(CPlayer players[], char size)
+//			void CPlayer::deleteMem(CPlayer players[], char size)
+//			void CPlayer::allocMem(void)
+//			void CPlayer::deleteMem(void)
+//			void CPlayer::printGrid(ostream& os, const short grid) const
+//			bool CPlayer::getGrid(const string fileName)
+//			void CPlayer::setShipInfo(const Direction & dir, const CCell & cell,
+//				const Ship & ship, const short & piecesOfShip)
+//			void CPlayer::saveGrid(void) const
+//			
+//----------------------------------------------------------------------------
+
 #include "cplayer.h"
 
 using namespace std;
@@ -6,7 +29,7 @@ namespace DV_STF
 {
 	//----------------------------------------------------------------------------
 	//	Class:         CPlayer
-	//	method:        CPlayer CPlayer::operator=(const CPlayer& old)
+	//	method:        CPlayer & CPlayer::operator=(const CPlayer& old)
 	//	description:   assignment operator for CPlayer class 
 	//	Input:         None 
 	//	Output:        N/A
@@ -17,16 +40,22 @@ namespace DV_STF
 	//	History Log:
 	//	               2017-03-08 DV  completed version 0.1
 	//----------------------------------------------------------------------------
-	CPlayer CPlayer::operator=(const CPlayer& old)
+	CPlayer & CPlayer::operator=(const CPlayer & player)
 	{
-		if (this == &old)
-			return *this;
-
-		delete[] m_gameGrid;
-		m_gridSize = old.m_gridSize;
-
-		allocMem();
-
+		m_whichPlayer = player.m_whichPlayer;
+		m_piecesLeft = player.m_piecesLeft;
+		for (size_t i = 0; i < SHIP_SIZE_ARRAYSIZE; i++)
+		{
+			m_ships[i] = player.m_ships[i];
+		}
+		m_gridSize = player.m_gridSize;
+		// Copy m_gameGrid
+		short numberOfRows = (toupper(m_gridSize) == 'L') ? LARGEROWS : SMALLROWS;
+		short numberOfCols = (toupper(m_gridSize) == 'L') ? LARGECOLS : SMALLCOLS;
+		for (size_t whichPlayer = 0; whichPlayer < NUMPLAYERS; whichPlayer++)
+			for (size_t i = 0; i < numberOfRows; i++)
+				for (size_t j = 0; j < numberOfCols; j++)
+					m_gameGrid[whichPlayer][i][j] = player.m_gameGrid[whichPlayer][i][j];
 		return *this;
 	}
 
@@ -97,7 +126,7 @@ namespace DV_STF
 	//	Input:         None 
 	//	Output:        N/A
 	//	Calls:         N/A
-	//	Called By:     N/A
+	//	Called By:     play()
 	//	Parameters:	   CShip ship
 	//	Returns:       N/A
 	//	History Log:
@@ -105,8 +134,10 @@ namespace DV_STF
 	//----------------------------------------------------------------------------
 	void CPlayer::hitShip(CShip ship)
 	{
-		--m_piecesLeft;
-		--m_ships[ship];
+		short pieces = m_ships[ship].getPiecesLeft();
+		m_piecesLeft--;
+		pieces--;
+		m_ships[ship].setPiecesLeft(pieces);
 	}
 
 	//----------------------------------------------------------------------------
@@ -234,7 +265,19 @@ namespace DV_STF
 			saveGrid();
 	}
 
-	//
+	//----------------------------------------------------------------------------
+	//	Class:         CPlayer
+	//	method:        bool CPlayer::isValidLocation(short whichShip)
+	//	description:   prompts user to set their ships
+	//	Input:         from cin
+	//	Output:        filled ship array
+	//	Calls:         getRow(), getCol(), getOrientation(), getBowLocation()
+	//	Called By:     N/A
+	//	Parameters:	   short whichShip
+	//	Returns:       N/A
+	//	History Log:
+	//	               2017-03-08 DV  completed version 1.0
+	//----------------------------------------------------------------------------
 	bool CPlayer::isValidLocation(short whichShip)
 	{
 		bool r_val = true;
@@ -637,7 +680,21 @@ namespace DV_STF
 		return true;
 	}
 
-	// setShipInfo.  Loads up m_ships array. 
+	//----------------------------------------------------------------------------
+	//	Class:         CPlayer
+	//	method:        void CPlayer::setShipInfo(const Direction & dir, const CCell & cell,
+	//					const Ship & ship, const short & piecesOfShip)
+	//	description:   sets the ship info
+	//	Input:         None 
+	//	Output:        N/A
+	//	Calls:         setOrientation(), setPiecesLeft(), setName()
+	//	Called By:     CSinkTheFleet::play()
+	//	Parameters:	   const Direction & dir, const CCell & cell,
+	//					const Ship & ship, const short & piecesOfShip
+	//	Returns:       N/A
+	//	History Log:
+	//	               2017-03-04 DV  completed version 1.0
+	//----------------------------------------------------------------------------  
 	void CPlayer::setShipInfo(const Direction & dir, const CCell & cell,
 		const Ship & ship, const short & piecesOfShip)
 	{
@@ -647,7 +704,20 @@ namespace DV_STF
 		m_ships[shipNum].setPiecesLeft(piecesOfShip);
 	}
 
-	// saveGrid()
+	//----------------------------------------------------------------------------
+	//	Class:         CPlayer
+	//	method:        void CPlayer::saveGrid(void) const
+	//	description:   saves grid to file
+	//	Input:         None 
+	//	Output:        N/A
+	//	Calls:         getBowLocation(), 
+	//					get_row(), get_col()
+	//	Called By:     setShips()
+	//	Parameters:	   N/A
+	//	Returns:       N/A
+	//	History Log:
+	//	               2017-03-08 DV  completed version 1.0
+	//----------------------------------------------------------------------------  
 	void CPlayer::saveGrid(void) const
 	{
 		short numberOfRows = (toupper(m_gridSize) == 'L') ? LARGEROWS : SMALLROWS;
