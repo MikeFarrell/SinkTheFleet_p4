@@ -1,5 +1,9 @@
 # SinkTheFleet_p4
 
+hmm, I didn't see the other branch I thought it was all on the main page there.  It's working though
+if you get all the updated files.  We're still missing the option for user to verify the location for each ship..
+-jr
+
 no. Idk if you guys want to use it but i made a better getGrid, saveGrid, and setShips function and updated play(), plus added a bunch of commenting in jconwhit-game-working branch. I downloaded the master branch and its not working for me. Either that or i bugged it out -JW
 
 I think it's all there, it's working on my end..   I just added a copy constructor and
