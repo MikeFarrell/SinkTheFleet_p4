@@ -53,14 +53,14 @@ namespace DV_STF
 		{
 			m_row = row; m_col = col;
 		}
-		void printCoord(ostream& sout)
+		void print(ostream& sout)
 		{
-			cout << static_cast<char>(m_row + 'A' + 1) << m_col + 1;
+			sout << static_cast<char>(m_row + 'A') << m_col + 1;
 		}
 		CCell inputCoordinates(istream& sin, char size);
 		unsigned short get_row() { return m_row; }
 		unsigned short get_col() { return m_col; }
-		void print() { printCoord(cout); }
+		void print() { print(cout); }
 		void increaseCol() { m_col++; }
 		void increaseRow() { m_row++; }
 

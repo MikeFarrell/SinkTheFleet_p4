@@ -26,98 +26,158 @@ namespace DV_STF
 		return temp;
 	}
 
+	void CPlayer::hitShip(CShip ship)
+	{
+		--m_piecesLeft; //fix
+		m_ships[ship].setPiecesLeft(getPiecesLeft()-1);
+	}
+
 
 	void CPlayer::setShips()
 	{
 		char input = 'V';
+		char shipOK = 'Y';
+		char use_ship = 'Y';
 		char ok = 'Y';
 		char save = 'N';
 		Ship ship_type;
+		string use_ship_string;
 		Direction orientation;
 		ostringstream outSStream;
-		CCell location;
+		CCell location = { 0, 0 };
+
 		for (short j = 1; j < SHIP_SIZE_ARRAYSIZE; j++)
 		{
-			system("cls");
-			printGrid(cout, getWhichPlayer());
-			outSStream.str("");
-			outSStream << "Player " << m_whichPlayer + 1 << " Enter "
-				<< shipNames[j] << " orientation";
-			input = safeChoice(outSStream.str(), 'V', 'H');
-			this[m_whichPlayer].m_ships[j].getOrientation()
-				= (input == 'V') ? VERTICAL : HORIZONTAL;
-			orientation = this[m_whichPlayer].m_ships[j].getOrientation();
-			cout << "Player " << m_whichPlayer + 1 << " Enter " << shipNames[j] <<
-				" bow coordinates <row letter><col #>: ";
-			
-			//this[m_whichPlayer].m_ships[j].getBowLocation() = m_ships[m_whichPlayer].getBowLocation().inputCoordinates(cin, m_gridSize);
-			location = m_ships[m_whichPlayer].getBowLocation().inputCoordinates(cin, m_gridSize);
-
-			// if ok
-			if (!isValidLocation(j))
-			{
-				cout << "invalid location. Press <enter>";
-				cin.get();
-				j--; // redo
-				continue;
-			}
-
-			//location = this[m_whichPlayer].m_ships[j].getBowLocation();
-			this[m_whichPlayer].m_ships[j].getBowLocation() = location;
-			ship_type = static_cast<Ship>(j);
-			this[m_whichPlayer].m_gameGrid[0]
-				[location.get_row()][location.get_col()] = ship_type;
-
-			for (int i = 0; i < shipSize[j]; i++)
-			{
-				if (input == 'V')
+			do {
+				system("cls");
+				shipOK = 'Y';
+				printGrid(cout, MYGRID);
+				use_ship_string = shipNames[j];
+				use_ship_string += " ok?";
+				use_ship = safeChoice(use_ship_string, 'Y', 'N');
+				if (use_ship == 'Y')
 				{
-					this[m_whichPlayer].m_gameGrid[0]
-						[location.get_row() + i][location.get_col()] = ship_type;
-				}
+					outSStream.str("");
+					outSStream << "Player " << m_whichPlayer + 1 << " Enter " << shipNames[j] << " orientation";
+					input = safeChoice(outSStream.str(), 'V', 'H');
+					orientation = (input == 'V') ? VERTICAL : HORIZONTAL;
+					m_ships[j].setOrientation(CDirection(orientation));
+					cout << "Player " << m_whichPlayer + 1 << " Enter " << shipNames[j] <<
+						" bow coordinates <row letter><col #>" << endl;
+					location.inputCoordinates(cin, m_gridSize);
+					m_ships[j].setBowLocation(location);
+
+					// if ok
+					if (!isValidLocation(j))
+					{
+						cout << "invalid location. Press <enter>";
+						cin.get();
+						j--; // redo
+						continue;
+					}
+
+
+
+					ship_type = static_cast<Ship>(j);
+					m_gameGrid[MYGRID][location.get_row()][location.get_col()] = ship_type;
+
+					for (int i = 0; i < shipSize[j]; i++)
+					{
+						if (input == 'V')
+						{
+							m_gameGrid[MYGRID]
+								[location.get_row() + i][location.get_col()] = ship_type;
+						}
+						else
+						{
+							m_gameGrid[MYGRID]
+								[location.get_row()][location.get_col() + i] = ship_type;
+						}
+						//i++;
+					}
+					system("cls");
+					printGrid(cout, MYGRID);
+					shipOK = safeChoice("Is Ship Position ok?", 'Y', 'N');
+					if (shipOK == 'N')
+					{
+						m_gameGrid[MYGRID][location.get_row()][location.get_col()] = NOSHIP;
+						for (int i = 0; i < shipSize[j]; i++)
+						{
+							if (input == 'V')
+							{
+								m_gameGrid[MYGRID][location.get_row() + i][location.get_col()] = NOSHIP;
+							}
+							else
+							{
+								m_gameGrid[MYGRID][location.get_row()][location.get_col() + i] = NOSHIP;
+							}
+							//i++;
+						}
+					}
+				}//end of if(use_ship == Y)
 				else
 				{
-					this[m_whichPlayer].m_gameGrid[0]
-						[location.get_row()][location.get_col() + i] = ship_type;
+					cout << "Not using [" << shipNames[j] << "]. Press <enter> to continue.." << endl;
+					cin.get();
 				}
-				//i++;
-			}
-			if (j == 1)
+			} while (shipOK == 'N');
+
+			m_ships[j].setName(static_cast<Ship>(j));
+			if (use_ship == 'Y')
 			{
-				this[m_whichPlayer].m_ships[j].setName(MINESWEEPER);
-				this[m_whichPlayer].m_ships[j].setPiecesLeft(2);
+				m_ships[j].setPiecesLeft(shipSize[j]);
 			}
-			else if (j == 2)
+			else
 			{
-				this[m_whichPlayer].m_ships[j].setName(SUB);
-				this[m_whichPlayer].m_ships[j].setPiecesLeft(3);
-			}
-			else if (j == 3)
-			{
-				this[m_whichPlayer].m_ships[j].setName(FRIGATE);
-				this[m_whichPlayer].m_ships[j].setPiecesLeft(3);
-			}
-			else if (j == 4)
-			{
-				this[m_whichPlayer].m_ships[j].setName(BATTLESHIP);
-				this[m_whichPlayer].m_ships[j].setPiecesLeft(4);
-			}
-			else if (j == 5)
-			{
-				this[m_whichPlayer].m_ships[j].setName(CARRIER);
-				this[m_whichPlayer].m_ships[j].setPiecesLeft(5);
+				location = CCell(-1, -1);
+				m_ships[j].setOrientation(VERTICAL);
+				m_ships[j].setBowLocation(location);
+				hitShip(m_ships[j].getName());
 			}
 
-		} // end for j
-		printGrid(cout, getWhichPlayer());
+
+		}
+		printGrid(cout, MYGRID);
 		save = safeChoice("\nSave starting grid?", 'Y', 'N');
 		if (save == 'Y')
 			saveGrid();
 	}
 
+	//
 	bool CPlayer::isValidLocation(short whichShip)
 	{
-		return true;
+		bool r_val = true;
+		CCell location = m_ships[whichShip].getBowLocation();
+		Ship ship_type = static_cast<Ship>(whichShip);
+		short numberOfRows = (toupper(m_gridSize) == 'L') ? LARGEROWS : SMALLROWS;
+		short numberOfCols = (toupper(m_gridSize) == 'L') ? LARGECOLS : SMALLCOLS;
+
+		if ((m_ships[whichShip].getOrientation() == VERTICAL) & (location.get_row() <= ((numberOfRows)-shipSize[whichShip])))
+		{
+			for (short i = 0; i < shipSize[ship_type]; i++)
+			{
+				if (!m_gameGrid[0][location.get_row() + i][location.get_col()] == NOSHIP)
+				{
+					r_val = false;
+				}
+			}
+		}
+		else if ((m_ships[whichShip].getOrientation() == HORIZONTAL) & (location.get_col() <= ((numberOfCols)-shipSize[whichShip])))
+		{
+			for (short i = 0; i < shipSize[ship_type]; i++)
+			{
+				if (!m_gameGrid[0][location.get_row()][location.get_col() + i] == NOSHIP)
+				{
+					r_val = false;
+				}
+			}
+		}
+		else
+		{
+			r_val = false;
+		}
+
+		return r_val;
 	}
 
 
@@ -164,7 +224,7 @@ namespace DV_STF
 		}
 	}//end void CPlayer::allocMem()
 
-	 // deleteMem() original style.  For both players at same time. 
+	// deleteMem() original style.  For both players at same time. 
 	void CPlayer::deleteMem(CPlayer players[], char size)
 	{
 		{
@@ -259,7 +319,7 @@ namespace DV_STF
 		{
 			os << (char)i;					       //print out letter for each row
 			for (short col = 0; col < numberOfCols; col++)
-				m_gameGrid[m_whichPlayer][row][col].print();          //Print char code for ship		
+				m_gameGrid[grid][row][col].print();          //Print char code for ship		
 			os << endl << HORIZ;						//Print out horizontal bar
 			for (short h = 0; h < numberOfCols; h++)
 				os << HORIZ << HORIZ << CR;
@@ -272,14 +332,137 @@ namespace DV_STF
 	// We might need to rearrange some stuff, depending on the grid size..
 	// This is setup to read in the gridsize char first, then if that doesn't
 	// match the size the user already selected, it will return false. 
-	bool CPlayer::getGrid(const string  & fileName)
+	//bool CPlayer::getGrid(const string  & fileName)
+	//{
+	//	ifstream ifs;
+	//	char cell = ' ';
+	//	char fsize = 'S';
+	//	try
+	//	{
+	//		ifs.open(fileName.c_str());
+	//		if (!ifs)
+	//		{
+	//			cout << "could not open file " << fileName << endl
+	//				<< " press <enter> to continue" << endl;
+	//			cin.ignore(BUFFER_SIZE, '\n');
+	//			return false;
+	//		}
+	//	}
+	//	catch (exception e)
+	//	{
+	//		cout << "could not open file " << fileName << endl
+	//			<< " press <enter> to continue" << endl;
+	//		cin.ignore(BUFFER_SIZE, '\n');
+	//		return false;
+	//	}
+	//	// your code goes here ...
+	//	fsize = ifs.get();		 //get char from filestream 
+	//	if (fsize != m_gridSize) // checks if file gridsize matches size user already selected
+	//	{
+	//		return false;
+	//	}
+	//	m_gridSize = fsize;
+	//	short numberOfRows = (toupper(m_gridSize) == 'L') ? LARGEROWS : SMALLROWS;
+	//	short numberOfCols = (toupper(m_gridSize) == 'L') ? LARGECOLS : SMALLCOLS;
+	//	string tempString = ""; 
+	//	getline(ifs, tempString);
+	//	getline(ifs, tempString);  //get first line of numbers representing columns
+	//	Direction orientation;
+	//	bool minesweeperFound = false;
+	//	bool subFound = false;
+	//	bool frigateFound = false;
+	//	bool battleshipFound = false;
+	//	bool carrierFound = false;
+	//	//static const short shipSize[SHIP_SIZE_ARRAYSIZE] = { 0, 2, 3, 3, 4, 5 }; // just here for reference..
+	//	for (short row = 0; row < numberOfRows; row++) // Read in game grid cells 1 at a time
+	//	{
+	//		cell = ifs.get(); //get first char of each row to ignore A-H letters representing rows
+	//		cell = ifs.get();// junk char
+	//		cell = ifs.get();// next needed cell
+	//		for (short col = 0; col < numberOfCols; col++)
+	//		{
+	//			CCell tempCell(row, col);
+	//			switch (cell)  // Mark cell on players game grid, set Ship struct properties on first pass
+	//			{
+	//			case ' ': 
+	//				m_gameGrid[MYGRID][row][col] = NOSHIP;
+	//				break;
+	//			case 'M': m_gameGrid[MYGRID][row][col] = MINESWEEPER;
+	//				if (minesweeperFound == false)
+	//				{
+	//					orientation = (m_gameGrid[MYGRID][row][col + 1] == 'M') ? HORIZONTAL : VERTICAL;
+	//					CDirection dir(orientation);
+	//					setShipInfo(dir, tempCell, MINESWEEPER, shipSize[static_cast<short>(MINESWEEPER)]);
+	//					minesweeperFound = true;
+	//				}
+	//				break;
+	//			case 'S': m_gameGrid[MYGRID][row][col] = SUB;
+	//				if (subFound == false)
+	//				{
+	//					orientation = (m_gameGrid[MYGRID][row][col + 1] == 'S') ? HORIZONTAL : VERTICAL;
+	//					CDirection dir(orientation);
+	//					setShipInfo(dir, tempCell, SUB, shipSize[static_cast<short>(SUB)]);
+	//					subFound = true;
+	//				}
+	//				break;
+	//			case 'F': m_gameGrid[MYGRID][row][col] = FRIGATE;
+	//				if (frigateFound == false)
+	//				{
+	//					orientation = (m_gameGrid[MYGRID][row][col + 1] == 'F') ? HORIZONTAL : VERTICAL;
+	//					CDirection dir(orientation);
+	//					setShipInfo(dir, tempCell, FRIGATE, shipSize[static_cast<short>(FRIGATE)]);
+	//					frigateFound = true;
+	//				}
+	//				break;
+	//			case 'B': m_gameGrid[MYGRID][row][col] = BATTLESHIP;
+	//				if (battleshipFound == false)
+	//				{
+	//					orientation = (m_gameGrid[MYGRID][row][col + 1] == 'B') ? HORIZONTAL : VERTICAL;
+	//					CDirection dir(orientation);
+	//					setShipInfo(dir, tempCell, BATTLESHIP, shipSize[static_cast<short>(BATTLESHIP)]);
+	//					battleshipFound = true;
+	//				}
+	//				break;
+	//			case 'C': m_gameGrid[MYGRID][row][col] = CARRIER;
+	//				if (carrierFound == false)
+	//				{
+	//					orientation = (m_gameGrid[MYGRID][row][col + 1] == 'C') ? HORIZONTAL : VERTICAL;
+	//					CDirection dir(orientation);
+	//					setShipInfo(dir, tempCell, CARRIER, shipSize[static_cast<short>(CARRIER)]);
+	//					carrierFound = true;
+	//				}
+	//				break;
+	//			}
+	//			cell = ifs.get(); //junk chars
+	//			cell = ifs.get();
+	//			cell = ifs.get(); 
+	//		}
+	//		getline(ifs, tempString); // junk line
+	//	}
+	//	printGrid(cout, m_whichPlayer);
+	//	ifs.close();
+	//	return true;
+	//}
+	bool CPlayer::getGrid(const string fileName)
 	{
+		string line;
 		ifstream ifs;
-		char cell = ' ';
+		Ship ship = NOSHIP;
 		char fsize = 'S';
+		char use_ship = 'Y';
+		char input;
+		short too_high = 0;
+		unsigned short row = 0;
+		unsigned short col = 0;
+		char save = 'N';
+		Ship ship_type = NOSHIP;
+		CCell location = { 0, 0 };
+		//short numberOfRows = (toupper(size) == 'L') ? LARGEROWS : SMALLROWS; 
+		//short numberOfCols = (toupper(size) == 'L') ? LARGECOLS : SMALLCOLS;
+
 		try
 		{
-			ifs.open(fileName.c_str());
+			ifs.open(fileName);
 			if (!ifs)
 			{
 				cout << "could not open file " << fileName << endl
@@ -295,92 +478,122 @@ namespace DV_STF
 			cin.ignore(BUFFER_SIZE, '\n');
 			return false;
 		}
-		// your code goes here ...
-		fsize = ifs.get();		 //get char from filestream 
-		if (fsize != m_gridSize) // checks if file gridsize matches size user already selected
+
+		fsize = ifs.get();
+		ifs.ignore(FILENAME_MAX, '\n');
+
+		if (m_gridSize != fsize)
 		{
+			cout << "File contains wrong grid size." << endl <<
+				"Chosen grid size: " << m_gridSize << endl <<
+				"File grid size: " << fsize << endl;
+			cin.clear();
+			cin.ignore(FILENAME_MAX, '\n');
+			cin.get();
 			return false;
 		}
-		m_gridSize = fsize;
-		short numberOfRows = (toupper(m_gridSize) == 'L') ? LARGEROWS : SMALLROWS;
-		short numberOfCols = (toupper(m_gridSize) == 'L') ? LARGECOLS : SMALLCOLS;
-		string tempString = "";
-		getline(ifs, tempString);
-		getline(ifs, tempString);  //get first line of numbers representing columns
-		Direction orientation;
-		bool minesweeperFound = false;
-		bool subFound = false;
-		bool frigateFound = false;
-		bool battleshipFound = false;
-		bool carrierFound = false;
-		//static const short shipSize[SHIP_SIZE_ARRAYSIZE] = { 0, 2, 3, 3, 4, 5 }; // just here for reference..
-		for (short row = 0; row < numberOfRows; row++) // Read in game grid cells 1 at a time
+
+
+		short numberOfRows = (toupper(fsize) == 'L') ? LARGEROWS : SMALLROWS;
+		short numberOfCols = (toupper(fsize) == 'L') ? LARGECOLS : SMALLCOLS;
+
+		for (short j = 1; j < SHIP_SIZE_ARRAYSIZE; j++)
 		{
-			cell = ifs.get(); //get first char of each row to ignore A-H letters representing rows
-			cell = ifs.get();// junk char
-			cell = ifs.get();// next needed cell
-			for (short col = 0; col < numberOfCols; col++)
+			use_ship = 'Y';
+			location = CCell(0, 0);
+			//too_high = 0;
+			getline(ifs, line);
+			input = line.at(0);
+			m_ships[j].getOrientation() = (input == 'V') ? VERTICAL : HORIZONTAL;
+
+			row = (line.at(2));
+			col = (line.at(4));
+			if (((row - '0') < (-1)) || ((row - '0') > numberOfRows) ||
+				((col - '0') < (-1)) || ((col - '0') > numberOfCols))
 			{
-				CCell tempCell(row, col);
-				switch (cell)  // Mark cell on players game grid, set Ship struct properties on first pass
-				{
-				case ' ':
-					m_gameGrid[MYGRID][row][col] = NOSHIP;
-					break;
-				case 'M': m_gameGrid[MYGRID][row][col] = MINESWEEPER;
-					if (minesweeperFound == false)
-					{
-						orientation = (m_gameGrid[MYGRID][row][col + 1] == 'M') ? HORIZONTAL : VERTICAL;
-						CDirection dir(orientation);
-						setShipInfo(dir, tempCell, MINESWEEPER, shipSize[static_cast<short>(MINESWEEPER)]);
-						minesweeperFound = true;
-					}
-					break;
-				case 'S': m_gameGrid[MYGRID][row][col] = SUB;
-					if (subFound == false)
-					{
-						orientation = (m_gameGrid[MYGRID][row][col + 1] == 'S') ? HORIZONTAL : VERTICAL;
-						CDirection dir(orientation);
-						setShipInfo(dir, tempCell, SUB, shipSize[static_cast<short>(SUB)]);
-						subFound = true;
-					}
-					break;
-				case 'F': m_gameGrid[MYGRID][row][col] = FRIGATE;
-					if (frigateFound == false)
-					{
-						orientation = (m_gameGrid[MYGRID][row][col + 1] == 'F') ? HORIZONTAL : VERTICAL;
-						CDirection dir(orientation);
-						setShipInfo(dir, tempCell, FRIGATE, shipSize[static_cast<short>(FRIGATE)]);
-						frigateFound = true;
-					}
-					break;
-				case 'B': m_gameGrid[MYGRID][row][col] = BATTLESHIP;
-					if (battleshipFound == false)
-					{
-						orientation = (m_gameGrid[MYGRID][row][col + 1] == 'B') ? HORIZONTAL : VERTICAL;
-						CDirection dir(orientation);
-						setShipInfo(dir, tempCell, BATTLESHIP, shipSize[static_cast<short>(BATTLESHIP)]);
-						battleshipFound = true;
-					}
-					break;
-				case 'C': m_gameGrid[MYGRID][row][col] = CARRIER;
-					if (carrierFound == false)
-					{
-						orientation = (m_gameGrid[MYGRID][row][col + 1] == 'C') ? HORIZONTAL : VERTICAL;
-						CDirection dir(orientation);
-						setShipInfo(dir, tempCell, CARRIER, shipSize[static_cast<short>(CARRIER)]);
-						carrierFound = true;
-					}
-					break;
-				}
-				cell = ifs.get(); //junk chars
-				cell = ifs.get();
-				cell = ifs.get();
+				cout << "[" << shipNames[j] << "] is out of bounds. " <<
+					"This ship will not be loaded." << endl;
+				m_ships[j].setPiecesLeft(0);
+				m_piecesLeft -= shipSize[j];
+				continue;
 			}
-			getline(ifs, tempString); // junk line
-		}
-		printGrid(cout, m_whichPlayer);
-		ifs.close();
+			//checks if '/' is in both locations, indicating the save file excluded that ship
+			if ((row == '/') && (col == '/'))
+			{
+				use_ship = 'N';
+			}
+			else
+			{
+				row -= '0';
+				col -= '0';
+				location = CCell(row, col);
+				m_ships[j].setBowLocation(location);
+
+				ship_type = static_cast<Ship>(j);
+				m_gameGrid[MYGRID][location.get_row()][location.get_col()] = ship_type; //break point
+			}
+
+
+			if (use_ship == 'Y')
+			{
+
+				location = CCell(row, col);
+				m_ships[j].setBowLocation(location);
+				ship_type = static_cast<Ship>(j);
+				setCell(MYGRID, location, ship_type);
+				for (int i = 0; i < shipSize[j]; i++)
+				{
+					if (input == 'V')
+					{
+						m_gameGrid[MYGRID][location.get_row() + i][location.get_col()] = ship_type;
+					}
+					else
+					{
+						m_gameGrid[MYGRID][location.get_row()][location.get_col() + i] = ship_type;
+					}
+				}
+				if (j == 1)
+				{
+					m_ships[j].setName(MINESWEEPER);
+					m_ships[j].setPiecesLeft(2);
+				}
+				else if (j == 2)
+				{
+					m_ships[j].setName(SUB);
+					m_ships[j].setPiecesLeft(3);
+				}
+				else if (j == 3)
+				{
+					m_ships[j].setName(FRIGATE);
+					m_ships[j].setPiecesLeft(3);
+				}
+				else if (j == 4)
+				{
+					m_ships[j].setName(BATTLESHIP);
+					m_ships[j].setPiecesLeft(4);
+				}
+				else if (j == 5)
+				{
+					m_ships[j].setName(CARRIER);
+					m_ships[j].setPiecesLeft(5);
+				}
+			}
+			else
+			{
+				cout << "File does not contain [" << shipNames[j] << "] " << endl;
+				m_ships[j].setPiecesLeft(0);
+				m_piecesLeft -= shipSize[j];
+			}
+		} // end for j
+
+		  /*save = safeChoice("\nSave starting grid?", 'Y', 'N');
+		  if (save == 'Y')
+		  saveGrid(players, whichPlayer, fsize);*/
+		cout << endl << "Successfully loaded save file." <<
+			endl << "You have " << m_piecesLeft << " total fleet pieces." << endl << "Press <enter> to continue.." << endl;
+		cin.clear();
+		cin.ignore(FILENAME_MAX, '\n');
+		cin.get();
 		return true;
 	}
 
@@ -407,7 +620,13 @@ namespace DV_STF
 		outputFileName += ".shp";
 		outputFileStream.open(outputFileName);			          //Open filestream
 		outputFileStream << m_gridSize << endl;	   //Output char code for grid size
-		printGrid(outputFileStream, MYGRID);
+		for (short i = 1; i < SHIP_SIZE_ARRAYSIZE; i++)
+		{
+			outputFileStream << m_ships[i].getOrientation() <<
+				" " << static_cast<char>(m_ships[i].getBowLocation().get_row() + '0') <<
+				"," << static_cast<char>(m_ships[i].getBowLocation().get_col() + '0') << endl;
+		}
+		outputFileStream << endl;
 		cin.ignore(FILENAME_MAX, '\n');
 		outputFileStream.close();
 		cout << outputFileName << " saved." << endl;

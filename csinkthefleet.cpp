@@ -12,36 +12,45 @@ namespace DV_STF
 		bool reshot = false;
 		short whichPlayer = 0;
 		string filename;
-		Ship shipHit = NOSHIP;
+		CShip shipHit = NOSHIP;
+		short index;
 		CCell coord;
 
-		
+		system("cls");
+		header(cout);
+		grid_size = safeChoice("Enter desired grid size: ", 'L', 'S');
+		m_players[whichPlayer].setGridSize(grid_size);
+		m_gridSize = grid_size;
 
 		for (whichPlayer = 0; whichPlayer < NUMPLAYERS; whichPlayer++)
 		{
 			system("cls");
-			DV_STF::CSinkTheFleet::header(cout);
+			header(cout);
 			cout << "Player " << whichPlayer + 1 << ", ";
 			from_file =
 				safeChoice("Would you like to read starting grid from a file?",
 					'Y', 'N');
 			if (from_file == 'N')
 			{
-				grid_size = safeChoice("Enter desired grid size: ", 'L', 'S');
 				m_players[whichPlayer].setShips();
 			}
 			else if (from_file == 'Y')
 			{
-				cout << "Enter file name: ";
-				cin >> filename;
-				cin.ignore(FILENAME_MAX, '\n');
-				cout << "Reading from file...";
-				m_players[whichPlayer].getGrid(filename);
+				do
+				{
+					system("cls");
+					header(cout);
+					cout << "Enter file name: ";
+					
+					cin >> filename;
+					cout << "Reading from file..." << endl << endl;
+
+				} while (m_players[whichPlayer].getGrid(filename) == false);
 				m_players[whichPlayer].printGrid(cout, MYGRID);
 				cout << "Press <enter> to continue.." << endl;
 				cin.get();
 			}
-
+		}
 			system("cls");
 			header(cout);
 			cout << "Press <enter> to start the battle..." << endl;
@@ -58,7 +67,7 @@ namespace DV_STF
 					cout << "Player " << whichPlayer + 1 <<
 						", Enter Coordinates for Firing." << endl;
 
-					coord.inputCoordinates(cin, YOURGRID);
+					coord.inputCoordinates(cin, grid_size);
 
 					shipHit = m_players[!whichPlayer].getCell(MYGRID, coord);
 
@@ -84,15 +93,17 @@ namespace DV_STF
 						}
 						else
 						{
-							m_players[whichPlayer].hitShip(shipHit);
+							m_players[!whichPlayer].hitShip(shipHit);
 
 							//adjust grid for hit
-							m_players[!whichPlayer].setCell(MYGRID, coord, HIT);
+							m_players[!whichPlayer].setCell(MYGRID, coord, MISSED);//shows player their ship was hit
 							m_players[whichPlayer].setCell(YOURGRID, coord, HIT);
 							m_players[whichPlayer].printGrid(cout, YOURGRID);
 							cout << "HIT" << endl;
 
-							if (m_players[!whichPlayer][shipHit].isSunk())
+							index = static_cast<short>(shipHit);
+
+							if (m_players[!whichPlayer][index].isSunk())
 							{
 								cout << shipNames[shipHit] <<
 									" is destroyed." << endl;
@@ -129,12 +140,11 @@ namespace DV_STF
 				whichPlayer = !whichPlayer;  // switch players
 			}
 
-			//show ending dialouge w/ winner
-			endBox(whichPlayer);
-		}
 
 		return whichPlayer;
 	}// end for Play
+
+	
 
 	void CSinkTheFleet::header(ostream& sout)
 	{
