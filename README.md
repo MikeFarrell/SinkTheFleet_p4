@@ -1,7 +1,7 @@
 # SinkTheFleet_p4
-Working on correct file being given for grid, currently always large -MF
+Working on correct file being given for grid, currently always large -MF (DONE)
 
-Working on overwriting of bow location: line 53 of cplayer.cpp -MF
+Working on overwriting of bow location: line 53 of cplayer.cpp -MF (DONE)
 
 Also if any of you have discord or skype it would help a lot to talk to each other, too. -JW
 
