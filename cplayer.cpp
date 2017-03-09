@@ -105,7 +105,7 @@ namespace DV_STF
 	//----------------------------------------------------------------------------
 	void CPlayer::hitShip(CShip ship)
 	{
-		--m_piecesLeft; //fix
+		--m_piecesLeft;
 		--m_ships[ship];
 	}
 
