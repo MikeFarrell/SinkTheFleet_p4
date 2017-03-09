@@ -23,6 +23,7 @@ namespace DV_STF
 			// so not exactly sure what he wants here..
 			m_gameGrid[0] = nullptr;
 			m_gameGrid[1] = nullptr;
+			m_piecesLeft = 17;
 			m_gridSize = gridSize;
 			allocMem();
 			
@@ -43,7 +44,7 @@ namespace DV_STF
 		void setGridSize(const char size) { m_gridSize = size; }
 		void setCell(const short & whichGrid, CCell & cell, const CShip & ship)
 			{m_gameGrid[whichGrid][cell.get_row()][cell.get_col()] = ship;} // set the proper cell to ship
-
+		void setPiecesLeft(const short pieces) { m_piecesLeft = pieces; }
 		// NON-INLINE
 		void setShipInfo(const Direction & dir, const CCell & cell, const Ship & ship, const short & piecesOfShip);
 		void printGrid(ostream& os, const short grid) const;

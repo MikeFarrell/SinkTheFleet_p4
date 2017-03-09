@@ -103,7 +103,8 @@ namespace DV_STF
 						else
 						{
 							m_players[!whichPlayer].hitShip(tempShip);
-							
+							short temp = m_players[!whichPlayer].getPiecesLeft();
+							m_players[!whichPlayer].setPiecesLeft(temp);
 							//adjust grid for hit
 							m_players[!whichPlayer].setCell(MYGRID, coord, HIT);
 							m_players[whichPlayer].setCell(YOURGRID, coord, HIT);
