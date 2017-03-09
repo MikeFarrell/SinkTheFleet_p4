@@ -1,5 +1,9 @@
 # SinkTheFleet_p4
 
+I'm gonna check through everything a few times..  I think there's some missing
+operator [] overload() still, I'm confused what those are supposed to do, if 
+anyone wants to do those. Let me know if you come across any bugs -jr
+
 Anything else that needs to be worked on? My build seems to be running fine. If not I will work on test plan, sample output, etc.
 
 Should be working now -MF
