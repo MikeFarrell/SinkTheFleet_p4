@@ -1,5 +1,7 @@
 # SinkTheFleet_p4
 
+Im working on play() still. Its taking a while because everything is different. Ill keep updating when i make major progress
+
 Anyone started on play()? Wondering what to work on next... -JR
 
 Everything should now be up to date. I apologize for the number of commits, I was changing a lot of things in a lot of files to make the program work correctly. 
