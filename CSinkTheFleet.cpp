@@ -7,7 +7,7 @@ namespace DV_STF
 	CSinkTheFleet::CSinkTheFleet(char gridSize)
 	{
 		m_gridSize = toupper(gridSize);
-	    CPlayer player1(0, gridSize);
+		CPlayer player1(0, gridSize);
 		CPlayer player2(1, gridSize);
 		m_players[0] = player1;
 		m_players[1] = player2;
@@ -38,7 +38,7 @@ namespace DV_STF
 				{
 					/*if (i == 0)
 					{
-						grid_size = safeChoice("Enter desired grid size: ", 'L', 'S');
+					grid_size = safeChoice("Enter desired grid size: ", 'L', 'S');
 					}*/
 					m_players[whichPlayer].setGridSize(m_gridSize);
 					m_players[whichPlayer].setShips();
@@ -97,7 +97,7 @@ namespace DV_STF
 						}
 						else
 						{
-							//m_players[whichPlayer].hitShip(shipHit);
+							m_players[!whichPlayer].hitShip(shipHit);
 
 							//adjust grid for hit
 							m_players[!whichPlayer].setCell(MYGRID, coord, HIT);

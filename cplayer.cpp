@@ -111,6 +111,14 @@ namespace DV_STF
 			saveGrid();
 	}
 
+	void CPlayer::hitShip(CShip ship)
+	{
+		short pieces = m_ships[ship].getPiecesLeft();
+		m_piecesLeft--;
+		pieces--;
+		m_ships[ship].setPiecesLeft(pieces);
+	}
+
 	bool CPlayer::isValidLocation(short whichShip)
 	{
 		return true;
