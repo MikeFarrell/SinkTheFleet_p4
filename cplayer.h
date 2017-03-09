@@ -17,12 +17,15 @@ namespace DV_STF
 		//Constructors & Destructors
 		CPlayer(unsigned short whichPlayer = 0, char gridSize = 'L') :
 			m_whichPlayer(whichPlayer), m_gridSize(gridSize)
+		//CPlayer(unsigned short whichPlayer, char gridSize)
 		{
 			// Sets both game grids to NULL and calls allocMem().  The nullptrs are in allocMem() too though?? 
 			// so not exactly sure what he wants here..
 			m_gameGrid[0] = nullptr;
 			m_gameGrid[1] = nullptr;
+			m_gridSize = gridSize;
 			allocMem();
+			
 			//initializeShips() // need something here to 'initialize' player's ship array
 		}
 		~CPlayer() {};

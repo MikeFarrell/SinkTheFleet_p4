@@ -4,18 +4,25 @@ using namespace std;
 
 namespace DV_STF
 {
+	CSinkTheFleet::CSinkTheFleet(char gridSize)
+	{
+		m_gridSize = toupper(gridSize);
+	    CPlayer player1(0, gridSize);
+		CPlayer player2(1, gridSize);
+		m_players[0] = player1;
+		m_players[1] = player2;
+	}
+
 	short CSinkTheFleet::play()
 	{
 		char from_file = 'Y';
-		char grid_size = 'L';
+		//char grid_size = 'L';
 		bool gameOver = false;
 		bool reshot = false;
 		short whichPlayer = 0;
 		string filename;
 		Ship shipHit = NOSHIP;
 		CCell coord;
-
-
 
 		for (whichPlayer = 0; whichPlayer < NUMPLAYERS; whichPlayer++)
 		{
@@ -29,11 +36,11 @@ namespace DV_STF
 						'Y', 'N');
 				if (from_file == 'N')
 				{
-					if (i == 0)
+					/*if (i == 0)
 					{
 						grid_size = safeChoice("Enter desired grid size: ", 'L', 'S');
-					}
-					m_players[whichPlayer].setGridSize(grid_size);
+					}*/
+					m_players[whichPlayer].setGridSize(m_gridSize);
 					m_players[whichPlayer].setShips();
 				}
 				else if (from_file == 'Y')
@@ -42,8 +49,7 @@ namespace DV_STF
 					cin >> filename;
 					cin.ignore(FILENAME_MAX, '\n');
 					cout << "Reading from file...";
-					m_players[whichPlayer].getGrid(filename);
-					m_players[whichPlayer].printGrid(cout, MYGRID);
+					m_players[whichPlayer].getGrid(filename); // gets grid from file & prints
 					cout << "Press <enter> to continue.." << endl;
 					cin.get();
 				}

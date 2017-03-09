@@ -26,7 +26,6 @@ namespace DV_STF
 		return temp;
 	}
 
-
 	void CPlayer::setShips()
 	{
 		char input = 'V';
@@ -44,12 +43,12 @@ namespace DV_STF
 			outSStream << "Player " << m_whichPlayer + 1 << " Enter "
 				<< shipNames[j] << " orientation";
 			input = safeChoice(outSStream.str(), 'V', 'H');
-			this[m_whichPlayer].m_ships[j].getOrientation()
+			m_ships[j].getOrientation()
 				= (input == 'V') ? VERTICAL : HORIZONTAL;
-			orientation = this[m_whichPlayer].m_ships[j].getOrientation();
+			orientation = m_ships[j].getOrientation();
 			cout << "Player " << m_whichPlayer + 1 << " Enter " << shipNames[j] <<
 				" bow coordinates <row letter><col #>: ";
-			
+
 			//this[m_whichPlayer].m_ships[j].getBowLocation() = m_ships[m_whichPlayer].getBowLocation().inputCoordinates(cin, m_gridSize);
 			location = m_ships[m_whichPlayer].getBowLocation().inputCoordinates(cin, m_gridSize);
 
@@ -63,49 +62,46 @@ namespace DV_STF
 			}
 
 			//location = this[m_whichPlayer].m_ships[j].getBowLocation();
-			this[m_whichPlayer].m_ships[j].getBowLocation() = location;
+			m_ships[j].getBowLocation() = location;
 			ship_type = static_cast<Ship>(j);
-			this[m_whichPlayer].m_gameGrid[0]
-				[location.get_row()][location.get_col()] = ship_type;
+			m_gameGrid[0][location.get_row()][location.get_col()] = ship_type;
 
 			for (int i = 0; i < shipSize[j]; i++)
 			{
 				if (input == 'V')
 				{
-					this[m_whichPlayer].m_gameGrid[0]
-						[location.get_row() + i][location.get_col()] = ship_type;
+					m_gameGrid[0][location.get_row() + i][location.get_col()] = ship_type;
 				}
 				else
 				{
-					this[m_whichPlayer].m_gameGrid[0]
-						[location.get_row()][location.get_col() + i] = ship_type;
+					m_gameGrid[0][location.get_row()][location.get_col() + i] = ship_type;
 				}
 				//i++;
 			}
 			if (j == 1)
 			{
-				this[m_whichPlayer].m_ships[j].setName(MINESWEEPER);
-				this[m_whichPlayer].m_ships[j].setPiecesLeft(2);
+				m_ships[j].setName(MINESWEEPER);
+				m_ships[j].setPiecesLeft(2);
 			}
 			else if (j == 2)
 			{
-				this[m_whichPlayer].m_ships[j].setName(SUB);
-				this[m_whichPlayer].m_ships[j].setPiecesLeft(3);
+				m_ships[j].setName(SUB);
+				m_ships[j].setPiecesLeft(3);
 			}
 			else if (j == 3)
 			{
-				this[m_whichPlayer].m_ships[j].setName(FRIGATE);
-				this[m_whichPlayer].m_ships[j].setPiecesLeft(3);
+				m_ships[j].setName(FRIGATE);
+				m_ships[j].setPiecesLeft(3);
 			}
 			else if (j == 4)
 			{
-				this[m_whichPlayer].m_ships[j].setName(BATTLESHIP);
-				this[m_whichPlayer].m_ships[j].setPiecesLeft(4);
+				m_ships[j].setName(BATTLESHIP);
+				m_ships[j].setPiecesLeft(4);
 			}
 			else if (j == 5)
 			{
-				this[m_whichPlayer].m_ships[j].setName(CARRIER);
-				this[m_whichPlayer].m_ships[j].setPiecesLeft(5);
+				m_ships[j].setName(CARRIER);
+				m_ships[j].setPiecesLeft(5);
 			}
 
 		} // end for j
@@ -259,7 +255,8 @@ namespace DV_STF
 		{
 			os << (char)i;					       //print out letter for each row
 			for (short col = 0; col < numberOfCols; col++)
-				m_gameGrid[m_whichPlayer][row][col].print();          //Print char code for ship		
+				m_gameGrid[grid][row][col].print(os);
+				//m_gameGrid[m_whichPlayer][row][col].print();          //Print char code for ship		
 			os << endl << HORIZ;						//Print out horizontal bar
 			for (short h = 0; h < numberOfCols; h++)
 				os << HORIZ << HORIZ << CR;
@@ -379,7 +376,7 @@ namespace DV_STF
 			}
 			getline(ifs, tempString); // junk line
 		}
-		printGrid(cout, m_whichPlayer);
+		printGrid(cout, MYGRID);
 		ifs.close();
 		return true;
 	}
@@ -407,7 +404,7 @@ namespace DV_STF
 		outputFileName += ".shp";
 		outputFileStream.open(outputFileName);			          //Open filestream
 		outputFileStream << m_gridSize << endl;	   //Output char code for grid size
-		printGrid(outputFileStream, MYGRID);
+		printGrid(outputFileStream, 0);
 		cin.ignore(FILENAME_MAX, '\n');
 		outputFileStream.close();
 		cout << outputFileName << " saved." << endl;
