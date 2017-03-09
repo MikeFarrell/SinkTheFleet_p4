@@ -117,6 +117,8 @@ namespace DV_STF
 		} // set the proper cell to ship
 
 // NON-INLINE
+		void autoSetShips(void);
+		bool autoValidate(short shipNumber);
 		CPlayer & operator=(const CPlayer& old);
 
 		void setShipInfo(const Direction & dir, const CCell & cell, const Ship & ship, const short & piecesOfShip);

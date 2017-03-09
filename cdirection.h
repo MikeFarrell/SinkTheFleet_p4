@@ -69,7 +69,7 @@ namespace DV_STF
 				os << 'V' : os << 'H';
 		}	// Print 
 		void print() const { print(std::cout); }
-
+		Direction getDirection(void) { return m_direction; }
 
 	private:
 		Direction m_direction;							// HORIZONTAL or VERTICAL

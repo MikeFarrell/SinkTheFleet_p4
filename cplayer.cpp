@@ -80,6 +80,155 @@ namespace DV_STF
 		return *this->m_ships; //fix this line
 	}
 
+	
+	//--------------------------------------------------------------------------
+	//	Class:         CPlayer
+	//	method:        void autoSetShips(void)
+	//	description:   auto sets ships for 1 player.
+	//	Input:         
+	//	Output:        filled ship array
+	//	Calls:          setOrientation(), setBowLocation(), safeChoice()
+	//					setPiecesLeft, getRow(), getCol(), 
+	//					setName(), getName(), autoValidate()
+	//	Called By:     N/A
+	//	Parameters:	   CShip ship
+	//	Returns:       N/A
+	//	History Log:
+	//	               2017-03-08 DV  completed version 1.0
+	//--------------------------------------------------------------------------
+	void CPlayer::autoSetShips(void)
+	{
+		short numberOfRows =
+			(toupper(m_gridSize) == 'L') ? LARGEROWS : SMALLROWS;
+		short numberOfCols =
+			(toupper(m_gridSize) == 'L') ? LARGECOLS : SMALLCOLS;
+		Ship tempShip;
+		int randomNum = 0;
+		char save = '\0';
+		int attempts = 0;
+		srand((unsigned)time(NULL));
+		for (size_t j = 1; j < SHIP_SIZE_ARRAYSIZE; j++)
+		{
+			srand((unsigned)time(NULL));
+			short int_dir = rand() % 2;
+			Direction tempDir = (int_dir == 1) ? VERTICAL : HORIZONTAL;
+			CDirection newDir(tempDir);
+			m_ships[j].setOrientation(newDir);
+			short row = rand() % numberOfRows;
+			short col = rand() % numberOfCols;
+			CCell loc(row, col);
+			m_ships[j].setBowLocation(loc);
+			// if ok
+			if (autoValidate(j) == false)
+			{
+				j--; // redo
+				attempts++;
+				cout << "Attempts: " << attempts << endl;
+				continue;
+			}
+			tempShip = static_cast<Ship>(j);
+			CShip ship_type(tempShip);
+			m_gameGrid[0][loc.get_row()][loc.get_col()] = ship_type;
+
+			for (int i = 0; i < shipSize[j]; i++)
+			{
+				if (tempDir == VERTICAL)
+					m_gameGrid[0][loc.get_row() + i][loc.get_col()] = ship_type;
+				else
+					m_gameGrid[0][loc.get_row()][loc.get_col() + i] = ship_type;
+			}
+			if (j == 1)
+			{
+				m_ships[j].setName(MINESWEEPER);
+				m_ships[j].setPiecesLeft(2);
+			}
+			else if (j == 2)
+			{
+				m_ships[j].setName(SUB);
+				m_ships[j].setPiecesLeft(3);
+			}
+			else if (j == 3)
+			{
+				m_ships[j].setName(FRIGATE);
+				m_ships[j].setPiecesLeft(3);
+			}
+			else if (j == 4)
+			{
+				m_ships[j].setName(BATTLESHIP);
+				m_ships[j].setPiecesLeft(4);
+			}
+			else if (j == 5)
+			{
+				m_ships[j].setName(CARRIER);
+				m_ships[j].setPiecesLeft(5);
+			}
+		}
+		printGrid(cout, 0);
+		save = safeChoice("\nSave starting grid?", 'Y', 'N');
+		if (save == 'Y')
+			saveGrid();
+	}
+
+	//---------------------------------------------------------------------------
+	//	Class:         CPlayer
+	//	method:        autoValidate(short shipNumber)
+	//	description:   checks to see if location is ok
+	//	Input:         None
+	//	Output:        None
+	//	Calls:         getDirection, getOrientation, getBowlocation, get_row, 
+	//				   get_col
+	//	Called By:     autoSetShips()
+	//	Parameters:    short shipNumber
+	//	Returns:       true if location ok
+	//	History Log:
+	//	              3/9/2017 DV completed version 1.0 
+	//---------------------------------------------------------------------------
+	bool CPlayer::autoValidate(short shipNumber)
+	{
+		short numberOfRows =
+			(toupper(m_gridSize) == 'L') ? LARGEROWS : SMALLROWS;
+		short numberOfCols =
+			(toupper(m_gridSize) == 'L') ? LARGECOLS : SMALLCOLS;
+		bool returnValue = true;
+		CDirection tempDir = m_ships[shipNumber].getOrientation();
+		Direction orientation = tempDir.getDirection();
+		CCell tempCell = m_ships[shipNumber].getBowLocation();
+		unsigned short row = tempCell.get_row();
+		unsigned short col = tempCell.get_col();
+		if (orientation == VERTICAL)
+		{   //  Check than length of ship will not extend the game grid.
+			if (numberOfRows - row < shipSize[shipNumber])
+				return false;
+			for (short i = 0; i < shipSize[shipNumber]; i++) //for length of ship
+			{ // Check ship's cells, vertically from bow location to end location
+				Ship tempShip = m_gameGrid[MYGRID][row + i][col].getShip();
+				if (tempShip != NOSHIP)
+				{
+					returnValue = false; //return false,  cell is not empty
+					break;
+				}
+			}
+		}
+		else //	orientation is HORIZONTAL
+		{
+			if (numberOfCols - col < shipSize[shipNumber])
+				return false;
+			for (short i = 0; i < shipSize[shipNumber]; i++)
+			{ //Check ship's cells,horizontally from bow location to end location
+				Ship tempShip = m_gameGrid[MYGRID][row][col + i].getShip();
+				if (tempShip != NOSHIP)
+				{
+					returnValue = false;
+					break;
+				}
+			}
+		}
+		if (returnValue == false)
+			return returnValue;
+		else
+			return true;
+	}
+
 	//----------------------------------------------------------------------------
 	//	Class:         CPlayer
 	//	method:        CPlayer operator--()
