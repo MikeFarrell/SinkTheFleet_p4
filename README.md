@@ -1,5 +1,7 @@
 # SinkTheFleet_p4
 
+if you want i can start moving your recent changes to my branch and then we can merge it. I have options for excluded ships, verification of ship location, handling for ships out of bounds when reading from file, etc. -JW
+
 hmm, I didn't see the other branch I thought it was all on the main page there.  It's working though
 if you get all the updated files.  We're still missing the option for user to verify the location for each ship..
 -jr
