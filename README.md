@@ -1,5 +1,7 @@
 # SinkTheFleet_p4
 
+i made several changes to Play() in the csinkthefleet.cpp. I will check the changes you committed. -JW
+
 if you want i can start moving your recent changes to my branch and then we can merge it. I have options for excluded ships, verification of ship location, handling for ships out of bounds when reading from file, etc. -JW
 
 hmm, I didn't see the other branch I thought it was all on the main page there.  It's working though
