@@ -1,5 +1,7 @@
 # SinkTheFleet_p4
 
+Anything else that needs to be worked on? My build seems to be running fine. If not I will work on test plan, sample output, etc.
+
 Should be working now -MF
 
 Hey Mike, so I put up my new CPlayer.cpp file with the validLocation(), but I made a new branch or pull request thing
