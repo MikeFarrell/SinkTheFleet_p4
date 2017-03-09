@@ -1,5 +1,6 @@
 # SinkTheFleet_p4
 
+is it showing up properly? I tried to merge the two together and it should be showing up in Cplayer - mf
 
 If were just ignoring all the work i did that made the program work in my branch let me know what i can do at this point - JW
 
