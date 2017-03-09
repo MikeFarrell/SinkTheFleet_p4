@@ -1,3 +1,15 @@
+//----------------------------------------------------------------------------
+// File:		ccell.h
+// 
+// Description: Header file for CCell
+//	
+// Programmers:	Dark Vader
+// 
+// Environment: Hardware: i7 
+//              Software: OS: Windows 10; 
+//              Compiles under Microsoft Visual C++ 2015
+//----------------------------------------------------------------------------
+
 #ifndef FLEET_H
 #define FLEET_H
 
@@ -14,32 +26,35 @@ using namespace std;
 //---------------------------------------------------------------------------
 //	Title:          CCell.h
 //	Description:    This file contains the class definition for CCell
-//	Programmer:     dark vader
+//	Programmers:     dark vader
 //	Date:           3/4/2017
 //	Version:	1.00
 //	Environment:	 Hardware: i7 
-//              Software: OS: Windows 7; 
-//              Compiles under Microsoft Visual C++ 2012
+//              Software: OS: Windows 10 
+//              Compiles under Microsoft Visual C++ 2015
 //	class CShip:
 //	Properties:
 //			m_row - the row of the coordinate
 //			m_col - the column of the coordinate
 //	Methods:
 //		Inline:
-//			Constructor CCell(unsigned short row = 0, short col = 0)
+//			CCell(unsigned short row = 0, short col = 0)
 //			Accessors: unsigned short getRow()
 //					   unsigned short getCol()
-//			Void Print()
+//			void print() { print(cout); }
+//			void increaseCol() { m_col++; }
+//			void increaseRow() { m_row++; }
+//			void print(ostream& sout)
 //		Non-Inline:
-//				void CCell::getCoord(istream& sin, char size);
+//				CCell inputCoordinates(istream& sin, char size);
+//		Related:
 //				ostream& operator<<(ostream& sout, CCell& cell);
 //				
 //  History Log:
-//				9/12/06 PB comleted v 0.5
-//				3/26/2017 dark vader completed v 0.6
-//				3/27/2017 dark vader completed v 0.7
-//				3/28/2017 dark vader completed v 0.8
-//				3/29/2017 dark vader completed v 0.9
+//				3/26/2017 dark vader completed v 0.1
+//				3/27/2017 dark vader completed v 0.2
+//				3/28/2017 dark vader completed v 0.3
+//				3/29/2017 dark vader completed v 0.4
 //				3/04/2017 dark vader completed v 1.0
 //     
 //-----------------------------------------------------------------------------
@@ -65,8 +80,8 @@ namespace DV_STF
 		void increaseRow() { m_row++; }
 
 	private:
-		unsigned short m_row;	// row
-		unsigned short m_col;	// column
+		unsigned short m_row;	
+		unsigned short m_col;	
 	};
 	ostream& operator<<(ostream& sout, CCell& cell);
 }

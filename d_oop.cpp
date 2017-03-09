@@ -9,11 +9,12 @@ int main()
 {
 	DV_STF::CSinkTheFleet game;
 	char again = 'N';
+	short winner;
 
 	do {
-		//game = DV_STF::CSinkTheFleet();
-		game.play();
-
+		
+		winner = game.play();
+		game.endBox(winner);
 		again = safeChoice("Would you like to play again?", 'Y', 'N');
 	} while (again == 'Y');
 

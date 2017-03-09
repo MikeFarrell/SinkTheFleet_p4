@@ -1,3 +1,15 @@
+//----------------------------------------------------------------------------
+// File:		cship.h
+// 
+// Description: Header file for CShip
+//	
+// Programmers:	Dark Vader
+// 
+// Environment: Hardware: i7 
+//              Software: OS: Windows 10; 
+//              Compiles under Microsoft Visual C++ 2015
+//----------------------------------------------------------------------------
+
 #ifndef CSHIP
 #define CSHIP
 
@@ -36,6 +48,33 @@ namespace DV_STF
 	{ "No Ship", "Mine Sweeper", "Submarine", "Frigate",
 		"Battleship", "Aircraft Carrier" };
 
+	//---------------------------------------------------------------------------
+	//	Title:          CShip.h
+	//	Description:    This file contains the class definition for CShip
+	//	Programmers:     dark vader
+	//	Date:           3/4/2017
+	//	Version:	1.00
+	//	Environment:	 Hardware: i7 
+	//              Software: OS: Windows 10 
+	//              Compiles under Microsoft Visual C++ 2015
+	//	class CShip:
+	//	Properties:
+	//			Ship m_ship;
+	//
+	//	Methods:
+	//		Inline:
+	//			CShip(Ship ship = NOSHIP)
+	//			operator Ship()
+	//			void print()
+	//		Non-Inline:
+	//				void print(ostream & sout) const
+	//		Related:
+	//				ostream& operator<<(ostream& sout, CShip& ship);
+	//				istream &operator>>(istream &sin, CShip &ship)
+	//  History Log:
+	//				3/04/2017 dark vader completed v 1.0
+	//     
+	//-----------------------------------------------------------------------------
 	class CShip
 	{
 	public:

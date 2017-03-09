@@ -1,3 +1,15 @@
+//----------------------------------------------------------------------------
+// File:		cdirection.h
+// 
+// Description: Header file for CDirection
+//	
+// Programmers:	Dark Vader
+// 
+// Environment: Hardware: i7 
+//              Software: OS: Windows 10; 
+//              Compiles under Microsoft Visual C++ 2015
+//----------------------------------------------------------------------------
+
 #ifndef CDIRECTION
 #define CDIRECTION
 
@@ -13,7 +25,35 @@ namespace DV_STF
 		HORIZONTAL, // 0
 		VERTICAL	// 1
 	};
-
+	//---------------------------------------------------------------------------
+	//	Title:          CDirection.h
+	//	Description:    This file contains the class definition for CDirection
+	//	Programmers:     dark vader
+	//	Date:           3/4/2017
+	//	Version:	1.00
+	//	Environment:	 Hardware: i7 
+	//              Software: OS: Windows 10 
+	//              Compiles under Microsoft Visual C++ 2015
+	//	class CDirection:
+	//	Properties:
+	//			Direction m_direction;
+	//
+	//	Methods:
+	//		Inline:
+	//			CDirection() {}
+	//			CDirection(Direction dir) { m_direction = dir; }
+	//			~CDirection() {}
+	//			void print(ostream& os) const
+	//			void print()
+	//		Non-Inline:
+	//				void print(ostream & sout) const
+	//		Related:
+	//				ostream& operator<<(ostream& os, const CDirection & dir);
+	//				istream &operator>>(istream& is, CDirection & dir)
+	//  History Log:
+	//				3/04/2017 dark vader completed v 1.0
+	//     
+	//-----------------------------------------------------------------------------
 	class CDirection
 	{
 	public:
