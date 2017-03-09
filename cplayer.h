@@ -16,7 +16,7 @@ namespace DV_STF
 	public:
 		//Constructors & Destructors
 		CPlayer(unsigned short whichPlayer = 0, char gridSize = 'L') :
-			m_whichPlayer(whichPlayer), m_gridSize(gridSize)
+			m_whichPlayer(whichPlayer), m_gridSize(gridSize), m_piecesLeft(17)
 		{
 			// Sets both game grids to NULL and calls allocMem().  The nullptrs are in allocMem() too though?? 
 			// so not exactly sure what he wants here..
@@ -25,7 +25,7 @@ namespace DV_STF
 			allocMem();
 			//initializeShips() // need something here to 'initialize' player's ship array
 		}
-		~CPlayer() {};
+		~CPlayer() { deleteMem(); };
 		//CPlayer copy(void) const;					//Deep copy constructor
 
 		//operator=									//Deep copy assignment
@@ -36,6 +36,7 @@ namespace DV_STF
 		char getGridSize() const { return m_gridSize; }
 		CShip getCell(const short & whichGrid, CCell & cell) const
 			{return m_gameGrid[whichGrid][cell.get_row()][cell.get_col()];}
+
 		void setGridSize(const char size) { m_gridSize = size; }
 		void setCell(const short & whichGrid, CCell & cell, const CShip & ship)
 			{m_gameGrid[whichGrid][cell.get_row()][cell.get_col()] = ship;} // set the proper cell to ship
@@ -43,21 +44,22 @@ namespace DV_STF
 		// NON-INLINE
 		void setShipInfo(const Direction & dir, const CCell & cell, const Ship & ship, const short & piecesOfShip);
 		void printGrid(ostream& os, const short grid) const;
-		bool getGrid(const string & filename); //inputs grid from file
+		bool getGrid(const string filename); //inputs grid from file
 		void saveGrid(void) const;
-		
 		void setShips();	//allow player to setup ship
 		void hitShip(CShip ship); //Decrement pieces left for ship & for fleet
 		bool isValidLocation(short whichShip); // the index # of which ship in array
 		CShipInfo operator[](short index) const;
 		CPlayer operator--();
 		CPlayer operator--(int);
+
 	private:
 		unsigned short m_whichPlayer;
 		short m_piecesLeft;
 		CShipInfo m_ships[SHIP_SIZE_ARRAYSIZE]; //shipinfo array
 		char m_gridSize;
 		CShip ** m_gameGrid[2];
+
 		//  For both players at the same time
 		void allocMem(CPlayer players[], char size); //alloc mem
 		void deleteMem(CPlayer players[], char size);//delete mem

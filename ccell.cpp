@@ -53,7 +53,7 @@ namespace DV_STF
 		fflush(stdin);
 		short numberOfRows = (toupper(size) == 'L') ? LARGEROWS : SMALLROWS;
 		short numberOfCols = (toupper(size) == 'L') ? LARGECOLS : SMALLCOLS;
-		char highChar = static_cast<char>(numberOfRows + 'A');
+		char highChar = static_cast<char>(numberOfRows + 'A' - 1);
 		char row = 0;
 		do
 		{
@@ -115,7 +115,7 @@ namespace DV_STF
 	//---------------------------------------------------------------------------------
 	ostream& operator<<(ostream& sout, CCell& cell)
 	{
-		cell.print();
+		cell.print(sout);
 		return sout;
 	};
 }

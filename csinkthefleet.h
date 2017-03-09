@@ -21,6 +21,7 @@ namespace DV_STF
 		CSinkTheFleet(char gridSize = 'L') 
 			: m_gridSize(gridSize) {};
 
+
 		short play(); //plays the game
 		CSinkTheFleet operator[](short index); //validate and return m_players[index]
 		CSinkTheFleet operator[](short index) const; //validate and return m_players[index]

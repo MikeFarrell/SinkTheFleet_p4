@@ -36,7 +36,7 @@ namespace DV_STF
 		void setBowLocation(const CCell location) { m_bowlocation = location; }
 		void setPiecesLeft(const short pieces) { m_piecesleft = pieces; }
 
-		CShipInfo operator--() { --m_piecesleft; } //  pre-decrement
+		CShipInfo operator--() { --m_piecesleft; return *this; } //  pre-decrement
 		bool isSunk(void) const { return (m_piecesleft == 0) ? true : false; }
 		static const short shipSize[6]; // Holds ship sizes
 

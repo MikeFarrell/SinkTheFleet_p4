@@ -1,15 +1,7 @@
 # SinkTheFleet_p4
 
-I am working on getting saveGrid(), getGrid(), and setShips() to work with each other. I have also been working on play() -JW
-
-Working on correct file being given for grid, currently always large -MF (DONE)
-
-Working on overwriting of bow location: line 53 of cplayer.cpp -MF (DONE)
-
-Also if any of you have discord or skype it would help a lot to talk to each other, too. -JW
-
-I also need someone to do hitShip() in CPlayer -JW
-
-Im working on play() still. Its taking a while because everything is different. Ill keep updating when i make major progress -JW
-
 Anyone started on play()? Wondering what to work on next... -JR
+
+Everything should now be up to date. I apologize for the number of commits, I was changing a lot of things in a lot of files to make the program work correctly. 
+
+As a reminder according to the things I was fixing with some of the classes and functions, if you are passing a parameter reference, do not make it const. For example, "const CShip & ship" will not allow you to use the ship reference. If you need to change the parameter, use a reference like "CShip & ship", otherwise use "const CShip ship" without the &.
