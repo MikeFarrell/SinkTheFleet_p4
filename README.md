@@ -1,5 +1,7 @@
 # SinkTheFleet_p4
 
+no. Idk if you guys want to use it but i made a better getGrid, saveGrid, and setShips function and updated play(), plus added a bunch of commenting in jconwhit-game-working branch. I downloaded the master branch and its not working for me. Either that or i bugged it out -JW
+
 I think it's all there, it's working on my end..   I just added a copy constructor and
 assignment operator= to CPlayer.cpp and CPlayer.h.  They're not being used
 anywhere right now.. -jr
