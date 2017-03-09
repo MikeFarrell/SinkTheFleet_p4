@@ -38,7 +38,7 @@ namespace DV_STF
 		for (short j = 1; j < SHIP_SIZE_ARRAYSIZE; j++)
 		{
 			system("cls");
-			printGrid(cout, getWhichPlayer());
+			printGrid(cout, 0);
 			outSStream.str("");
 			outSStream << "Player " << m_whichPlayer + 1 << " Enter "
 				<< shipNames[j] << " orientation";
@@ -105,7 +105,7 @@ namespace DV_STF
 			}
 
 		} // end for j
-		printGrid(cout, getWhichPlayer());
+		printGrid(cout, 0);
 		save = safeChoice("\nSave starting grid?", 'Y', 'N');
 		if (save == 'Y')
 			saveGrid();
