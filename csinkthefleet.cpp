@@ -13,7 +13,7 @@ namespace DV_STF
 
 		
 
-		for (short i = 0; i < 2; i++)
+		for (whichPlayer = 0; whichPlayer < NUMPLAYERS; whichPlayer++)
 		{
 			system("cls");
 			DV_STF::CSinkTheFleet::header(cout);
