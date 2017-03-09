@@ -1,5 +1,9 @@
 # SinkTheFleet_p4
 
+
+If were just ignoring all the work i did that made the program work in my branch let me know what i can do at this point - JW
+
+
 I'm gonna check through everything a few times..  I think there's some missing
 operator [] overload() still, I'm confused what those are supposed to do, if 
 anyone wants to do those. Let me know if you come across any bugs -jr
