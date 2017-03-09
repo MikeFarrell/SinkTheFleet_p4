@@ -1,5 +1,7 @@
 
 # SinkTheFleet_p4
+Hey ya, that saveGrid and getGrid() we had earlier was working fine. 
+I'm reverting back to last working version.  -jr
 
 i still have the working version that i have been updating with your changes. Do you guys want to meet up in the lab before class today? I'm good to head over there now with all the files if you want -JW
 
