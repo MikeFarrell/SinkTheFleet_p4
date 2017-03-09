@@ -22,7 +22,7 @@ namespace DV_STF
 		CDirection(Direction dir) { m_direction = dir; } // Direction enum constructor
 		~CDirection() {};									// Destructor
 		operator Direction() const { return m_direction; }	// Cast 
-
+		Direction getDirection(void) { return m_direction; }
 
 		void print(ostream& os) const {
 			(m_direction == VERTICAL) ?
