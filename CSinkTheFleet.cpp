@@ -31,28 +31,33 @@ namespace DV_STF
 				system("cls");
 				DV_STF::CSinkTheFleet::header(cout);
 				cout << "Player " << whichPlayer + 1 << ", ";
-				from_file =
-					safeChoice("Would you like to read starting grid from a file?",
-						'Y', 'N');
-				if (from_file == 'N')
+				char autoSet = safeChoice("Auto set ships?", 'Y', 'N');
+				if (autoSet == 'Y')
 				{
-					/*if (i == 0)
+					m_players[whichPlayer].autoSetShips();
+				}
+				else
+				{
+					from_file =
+						safeChoice("Would you like to read starting grid from a file?",
+							'Y', 'N');
+					if (from_file == 'N')
 					{
-					grid_size = safeChoice("Enter desired grid size: ", 'L', 'S');
-					}*/
-					m_players[whichPlayer].setGridSize(m_gridSize);
-					m_players[whichPlayer].setShips();
+						m_players[whichPlayer].setGridSize(m_gridSize);
+						m_players[whichPlayer].setShips();
+					}
+					else if (from_file == 'Y')
+					{
+						cout << "Enter file name: ";
+						cin >> filename;
+						cin.ignore(FILENAME_MAX, '\n');
+						cout << "Reading from file...";
+						m_players[whichPlayer].getGrid(filename); // gets grid from file & prints
+						cout << "Press <enter> to continue.." << endl;
+						cin.get();
+					}
 				}
-				else if (from_file == 'Y')
-				{
-					cout << "Enter file name: ";
-					cin >> filename;
-					cin.ignore(FILENAME_MAX, '\n');
-					cout << "Reading from file...";
-					m_players[whichPlayer].getGrid(filename); // gets grid from file & prints
-					cout << "Press <enter> to continue.." << endl;
-					cin.get();
-				}
+				
 				whichPlayer++;
 			}
 			system("cls");

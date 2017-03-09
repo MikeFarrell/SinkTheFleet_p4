@@ -28,8 +28,8 @@ namespace DV_STF
 			
 			//initializeShips() // need something here to 'initialize' player's ship array
 		}
-		CPlayer(const CPlayer & player);					//Deep copy constructor
-		~CPlayer() {};
+		CPlayer(const CPlayer & player) { *this = player; }					//Deep copy constructor
+		~CPlayer() { deleteMem(); }
 		
 		//operator=									//Deep copy assignment
 		CPlayer & operator=(const CPlayer & player);
@@ -49,7 +49,8 @@ namespace DV_STF
 		void printGrid(ostream& os, const short grid) const;
 		bool getGrid(const string & filename); //inputs grid from file
 		void saveGrid(void) const;
-		
+		void autoSetShips(void);
+		bool autoValidate(short shipNumber);
 		void setShips();	//allow player to setup ship
 		void hitShip(CShip ship); //Decrement pieces left for ship & for fleet
 		bool isValidLocation(short shipNumber); // the index # of which ship in array
