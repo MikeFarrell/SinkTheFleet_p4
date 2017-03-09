@@ -1,4 +1,5 @@
 # SinkTheFleet_p4
+Working on overwriting of bow location: line 53 of cplayer.cpp
 
 Also if any of you have discord or skype it would help a lot to talk to each other, too. -JW
 
