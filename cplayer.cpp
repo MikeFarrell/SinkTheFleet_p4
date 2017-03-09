@@ -31,29 +31,30 @@ namespace DV_STF
 		char input = 'V';
 		char ok = 'Y';
 		char save = 'N';
-		Ship ship_type;
+		Ship tempShip;
 		Direction orientation;
 		ostringstream outSStream;
 		CCell location;
 		for (short j = 1; j < SHIP_SIZE_ARRAYSIZE; j++)
 		{
 			system("cls");
-			printGrid(cout, 0);
+			printGrid(cout, getWhichPlayer());
 			outSStream.str("");
 			outSStream << "Player " << m_whichPlayer + 1 << " Enter "
 				<< shipNames[j] << " orientation";
 			input = safeChoice(outSStream.str(), 'V', 'H');
-			m_ships[j].getOrientation()
-				= (input == 'V') ? VERTICAL : HORIZONTAL;
-			orientation = m_ships[j].getOrientation();
+			Direction tempDir = (input == 'V') ? VERTICAL : HORIZONTAL;
+			CDirection newDir(tempDir);
+			m_ships[j].setOrientation(newDir);
+			//orientation = m_ships[j].getOrientation();
 			cout << "Player " << m_whichPlayer + 1 << " Enter " << shipNames[j] <<
 				" bow coordinates <row letter><col #>: ";
 
 			//this[m_whichPlayer].m_ships[j].getBowLocation() = m_ships[m_whichPlayer].getBowLocation().inputCoordinates(cin, m_gridSize);
 			location = m_ships[m_whichPlayer].getBowLocation().inputCoordinates(cin, m_gridSize);
-
+			m_ships[j].setBowLocation(location);
 			// if ok
-			if (!isValidLocation(j))
+			if (isValidLocation(j) == false)
 			{
 				cout << "invalid location. Press <enter>";
 				cin.get();
@@ -61,9 +62,8 @@ namespace DV_STF
 				continue;
 			}
 
-			//location = this[m_whichPlayer].m_ships[j].getBowLocation();
-			m_ships[j].getBowLocation() = location;
-			ship_type = static_cast<Ship>(j);
+			tempShip = static_cast<Ship>(j);
+			CShip ship_type(tempShip);
 			m_gameGrid[0][location.get_row()][location.get_col()] = ship_type;
 
 			for (int i = 0; i < shipSize[j]; i++)
@@ -105,7 +105,7 @@ namespace DV_STF
 			}
 
 		} // end for j
-		printGrid(cout, 0);
+		printGrid(cout, getWhichPlayer());
 		save = safeChoice("\nSave starting grid?", 'Y', 'N');
 		if (save == 'Y')
 			saveGrid();
@@ -119,11 +119,55 @@ namespace DV_STF
 		m_ships[ship].setPiecesLeft(pieces);
 	}
 
-	bool CPlayer::isValidLocation(short whichShip)
+	bool CPlayer::isValidLocation(short shipNumber)
 	{
-		return true;
+		short numberOfRows = (toupper(m_gridSize) == 'L') ? LARGEROWS : SMALLROWS;
+		short numberOfCols = (toupper(m_gridSize) == 'L') ? LARGECOLS : SMALLCOLS;
+		bool returnValue = true;
+		CDirection tempDir = m_ships[shipNumber].getOrientation();
+		Direction orientation = tempDir.getDirection();
+		CCell tempCell = m_ships[shipNumber].getBowLocation();
+		unsigned short row = tempCell.get_row();
+		unsigned short col = tempCell.get_col();
+		if (orientation == VERTICAL)
+		{   //  Check than length of ship will not extend the game grid.
+			if (numberOfRows - row < shipSize[shipNumber])
+			{
+				cout << "Ship extends beyond the borders" << endl;
+				return false;
+			}
+			for (short i = 0; i < shipSize[shipNumber]; i++) //for length of ship
+			{ // Check ship's cells, vertically from bow location to end location
+				Ship tempShip = m_gameGrid[MYGRID][row + i][col].getShip();
+				if (tempShip != NOSHIP)
+				{
+					returnValue = false; //return false, because cell is not empty
+					break;
+				}
+			}
+		}
+		else //	orientation is HORIZONTAL
+		{
+			if (numberOfCols - col < shipSize[shipNumber])
+			{
+				cout << "Ship extends beyond the borders" << endl;
+				return false;
+			}
+			for (short i = 0; i < shipSize[shipNumber]; i++)
+			{ //Check ship's cells, horizontally from bow location to end location
+				Ship tempShip = m_gameGrid[MYGRID][row][col + i].getShip();
+				if (tempShip != NOSHIP)
+				{
+					returnValue = false;
+					break;
+				}
+			}
+		}
+		if (returnValue == false)
+			return returnValue;
+		else
+			return true;
 	}
-
 
 	// allocMem() original style.  For both players at same time
 	void CPlayer::allocMem(CPlayer players[], char size)
