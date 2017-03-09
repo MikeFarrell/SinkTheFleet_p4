@@ -4,32 +4,19 @@ using namespace std;
 
 namespace DV_STF
 {
-	// Copy constructor.  Deep copy
-	CPlayer::CPlayer(const CPlayer & player) 
-	{
-		*this = player;
-	}
-
-	// Assignment operator =. Deep copies.
-	CPlayer & CPlayer::operator=(const CPlayer & player)
-	{
-		m_whichPlayer = player.m_whichPlayer;
-		m_piecesLeft = player.m_piecesLeft;
-		for (size_t i = 0; i < SHIP_SIZE_ARRAYSIZE; i++)
-		{
-			m_ships[i] = player.m_ships[i];
-		}
-		m_gridSize = player.m_gridSize;
-		// Copy m_gameGrid
-		short numberOfRows = (toupper(m_gridSize) == 'L') ? LARGEROWS : SMALLROWS;
-		short numberOfCols = (toupper(m_gridSize) == 'L') ? LARGECOLS : SMALLCOLS;
-		for (size_t whichPlayer = 0; whichPlayer < NUMPLAYERS; whichPlayer++)
-			for (size_t i = 0; i < numberOfRows; i++)
-				for (size_t j = 0; j < numberOfCols; j++)
-					m_gameGrid[whichPlayer][i][j] = player.m_gameGrid[whichPlayer][i][j];
-		return *this;
-	}
-
+	//----------------------------------------------------------------------------
+	//	Class:         CPlayer
+	//	method:        CShipInfo CPlayer::operator[](short index) const
+	//	description:   assignment operator for CPlayer class 
+	//	Input:         None 
+	//	Output:        N/A
+	//	Calls:         N/A
+	//	Called By:     N/A
+	//	Parameters:	   short index
+	//	Returns:       m_ships[index]
+	//	History Log:
+	//	               2017-03-08 DV  completed version 1.0
+	//----------------------------------------------------------------------------
 	CShipInfo CPlayer::operator[](short index) const
 	{
 		if (index > 0 && index < DV_STF::SHIP_SIZE_ARRAYSIZE)
@@ -38,12 +25,38 @@ namespace DV_STF
 		return *this->m_ships; //fix this line
 	}
 
+	//----------------------------------------------------------------------------
+	//	Class:         CPlayer
+	//	method:        CPlayer operator--()
+	//	description:   pre-decrement operator for CPlayer class 
+	//	Input:         None 
+	//	Output:        N/A
+	//	Calls:         N/A
+	//	Called By:     N/A
+	//	Parameters:	   N/A
+	//	Returns:       current object
+	//	History Log:
+	//	               2017-03-08 DV  completed version 1.0
+	//----------------------------------------------------------------------------
 	CPlayer CPlayer::operator--()
 	{
 		m_piecesLeft--;
 		return *this;
 	}
 
+	//----------------------------------------------------------------------------
+	//	Class:         CPlayer
+	//	method:        CPlayer operator--(int)
+	//	description:   pre-decrement operator for CPlayer class 
+	//	Input:         None 
+	//	Output:        N/A
+	//	Calls:         N/A
+	//	Called By:     N/A
+	//	Parameters:	   unused int
+	//	Returns:       temp of current object before decrement
+	//	History Log:
+	//	               2017-03-08 DV  completed version 1.0
+	//----------------------------------------------------------------------------
 	CPlayer CPlayer::operator--(int)
 	{
 		CPlayer temp = *this;
@@ -51,6 +64,21 @@ namespace DV_STF
 		return temp;
 	}
 
+	//----------------------------------------------------------------------------
+	//	Class:         CPlayer
+	//	method:        void setShips()
+	//	description:   prompts user to set their ships
+	//	Input:         from cin
+	//	Output:        filled ship array
+	//	Calls:         safeChoice(), setOrientation(), setBowLocation(), 
+	//					setPiecesLeft, inputCoordinates(), getRow(), getCol(), 
+	//					setName(), getName(), isValidLocation()
+	//	Called By:     N/A
+	//	Parameters:	   CShip ship
+	//	Returns:       N/A
+	//	History Log:
+	//	               2017-03-08 DV  completed version 1.0
+	//----------------------------------------------------------------------------
 	void CPlayer::setShips()
 	{
 		char input = 'V';
@@ -136,6 +164,19 @@ namespace DV_STF
 			saveGrid();
 	}
 
+	//-----------------------------------------------------------------------------
+	//	Class:         CPlayer
+	//	method:        hitShip()
+	//	description:   decrements ship and total pieces
+	//	Input:         None
+	//	Output:        None
+	//	Calls:         getPieces
+	//	Called By:     CSinkTheFleet
+	//	Parameters:    CShip ship
+	//	Returns:       n/a 
+	//	History Log:
+	//	               3/9/2017 MF completed version 1.0
+	//-----------------------------------------------------------------------------
 	void CPlayer::hitShip(CShip ship)
 	{
 		short pieces = m_ships[ship].getPiecesLeft();
@@ -144,6 +185,19 @@ namespace DV_STF
 		m_ships[ship].setPiecesLeft(pieces);
 	}
 
+	//-----------------------------------------------------------------------------
+	//	Class:         CPlayer
+	//	method:        isValidLocation()
+	//	description:   checks to see if location is ok
+	//	Input:         None
+	//	Output:        None
+	//	Calls:         getDirection, getOrientation, getBowlocation, get_row, get_col
+	//	Called By:     CSinkTheFleet
+	//	Parameters:    short shipNumber
+	//	Returns:       true 
+	//	History Log:
+	//	              3/9/2017 JR completed version 1.0 
+	//-----------------------------------------------------------------------------
 	bool CPlayer::isValidLocation(short shipNumber)
 	{
 		short numberOfRows = (toupper(m_gridSize) == 'L') ? LARGEROWS : SMALLROWS;
@@ -194,7 +248,19 @@ namespace DV_STF
 			return true;
 	}
 
-	// allocMem() original style.  For both players at same time
+	//----------------------------------------------------------------------------
+	//	Class:         CPlayer
+	//	method:        void CPlayer::allocMem(CPlayer players[], char size)
+	//	description:   allocMem() original style.  For both players at same time
+	//	Input:         None 
+	//	Output:        N/A
+	//	Calls:         N/A
+	//	Called By:     N/A
+	//	Parameters:	   CPlayer players[], char size
+	//	Returns:       N/A
+	//	History Log:
+	//	               2017-03-08 DV  completed version 1.0
+	//----------------------------------------------------------------------------
 	void CPlayer::allocMem(CPlayer players[], char size)
 	{
 		short numberOfRows = (toupper(m_gridSize) == 'L') ? LARGEROWS : SMALLROWS;
@@ -237,7 +303,19 @@ namespace DV_STF
 		}
 	}//end void CPlayer::allocMem()
 
-	 // deleteMem() original style.  For both players at same time. 
+	 //----------------------------------------------------------------------------
+	 //	Class:         CPlayer
+	 //	method:        void CPlayer::deleteMem(CPlayer players[], char size)
+	 //	description:   deleteMem() original style.  For both players at same time
+	 //	Input:         None 
+	 //	Output:        N/A
+	 //	Calls:         N/A
+	 //	Called By:     N/A
+	 //	Parameters:	   CPlayer players[], char size
+	 //	Returns:       N/A
+	 //	History Log:
+	 //	               2017-03-08 DV  completed version 1.0
+	 //---------------------------------------------------------------------------- 
 	void CPlayer::deleteMem(CPlayer players[], char size)
 	{
 		{
@@ -259,11 +337,19 @@ namespace DV_STF
 		}
 	} //end void CPlayer::deleteMem()
 
-	  // the original function took in an array of the old Player struct.
-	  // Changed to work with only 1 player at a time..  
-	  // The CPlayer constructor takes in 'whichPlayer' and then
-	  // the allocMem() is a private function, so I think we may
-	  // have to call these twice, once for each player.
+	  //----------------------------------------------------------------------------
+	  //	Class:         CPlayer
+	  //	method:        void CPlayer::allocMem(void)
+	  //	description:   allocMem() new style.  For one player at a time
+	  //	Input:         None 
+	  //	Output:        N/A
+	  //	Calls:         N/A
+	  //	Called By:     N/A
+	  //	Parameters:	   N/A
+	  //	Returns:       N/A
+	  //	History Log:
+	  //	               2017-03-07 DV  completed version 1.0
+	  //---------------------------------------------------------------------------- 
 	void CPlayer::allocMem(void)
 	{
 		short numberOfRows = (toupper(m_gridSize) == 'L') ? LARGEROWS : SMALLROWS;
@@ -297,7 +383,19 @@ namespace DV_STF
 		}
 	}
 
-	// deleteMem() for 1 player at a time.  
+	//----------------------------------------------------------------------------
+	//	Class:         CPlayer
+	//	method:        void CPlayer::allocMem(void)
+	//	description:   deleteMem() new style.  For one player at a time
+	//	Input:         None 
+	//	Output:        N/A
+	//	Calls:         N/A
+	//	Called By:     N/A
+	//	Parameters:	   N/A
+	//	Returns:       N/A
+	//	History Log:
+	//	               2017-03-07 DV  completed version 1.0
+	//----------------------------------------------------------------------------  
 	void CPlayer::deleteMem(void)
 	{
 		short numberOfRows = (toupper(m_gridSize) == 'L') ? LARGEROWS : SMALLROWS;
@@ -318,7 +416,19 @@ namespace DV_STF
 		}
 	}
 
-	// Same as Project 1 except calls a CShip.print() instead of printShip()
+	//----------------------------------------------------------------------------
+	//	Class:         CPlayer
+	//	method:        void CPlayer::printGrid(ostream& os, const short grid) const
+	//	description:   print function to output grid
+	//	Input:         None 
+	//	Output:        grid
+	//	Calls:         N/A
+	//	Called By:     N/A
+	//	Parameters:	   ostream& os, const short grid
+	//	Returns:       N/A
+	//	History Log:
+	//	               2017-03-04 DV  completed version 1.0
+	//---------------------------------------------------------------------------- 
 	void CPlayer::printGrid(ostream& os, const short grid) const
 	{
 		short numberOfRows = (toupper(m_gridSize) == 'L') ? LARGEROWS : SMALLROWS;
@@ -342,18 +452,37 @@ namespace DV_STF
 	}
 
 
-	// getGrid() send it the filename to open.  Returns true if file loaded ok.  
-	// We might need to rearrange some stuff, depending on the grid size..
-	// This is setup to read in the gridsize char first, then if that doesn't
-	// match the size the user already selected, it will return false. 
-	bool CPlayer::getGrid(const string  & fileName)
+	//----------------------------------------------------------------------------
+	//	Class:         CPlayer
+	//	method:        bool CPlayer::getGrid(const string fileName)
+	//	description:   inputs grid from .shp file
+	//	Input:         None 
+	//	Output:        N/A
+	//	Calls:         setOrientation(), setPiecesLeft(), 
+	//	Called By:     CSinkTheFleet::play()
+	//	Parameters:	   const string fileName
+	//	Returns:       true/false
+	//	History Log:
+	//	               2017-03-04 DV  completed version 1.0
+	//---------------------------------------------------------------------------- 
+	bool CPlayer::getGrid(const string fileName)
 	{
+		string line;
 		ifstream ifs;
-		char cell = ' ';
+		Ship ship = NOSHIP;
 		char fsize = 'S';
+		char use_ship = 'Y';
+		char input;
+		short too_high = 0;
+		unsigned short row = 0;
+		unsigned short col = 0;
+		char save = 'N';
+		Ship ship_type = NOSHIP;
+		CCell location = { 0, 0 };
+
 		try
 		{
-			ifs.open(fileName.c_str());
+			ifs.open(fileName);
 			if (!ifs)
 			{
 				cout << "could not open file " << fileName << endl
@@ -369,92 +498,121 @@ namespace DV_STF
 			cin.ignore(BUFFER_SIZE, '\n');
 			return false;
 		}
-		// your code goes here ...
-		fsize = ifs.get();		 //get char from filestream 
-		if (fsize != m_gridSize) // checks if file gridsize matches size user already selected
+
+		fsize = ifs.get();
+		ifs.ignore(FILENAME_MAX, '\n');
+
+		if (m_gridSize != fsize)
 		{
+			cout << "File contains wrong grid size." << endl <<
+				"Chosen grid size: " << m_gridSize << endl <<
+				"File grid size: " << fsize << endl;
+			cin.clear();
+			cin.ignore(FILENAME_MAX, '\n');
+			cin.get();
 			return false;
 		}
-		m_gridSize = fsize;
-		short numberOfRows = (toupper(m_gridSize) == 'L') ? LARGEROWS : SMALLROWS;
-		short numberOfCols = (toupper(m_gridSize) == 'L') ? LARGECOLS : SMALLCOLS;
-		string tempString = "";
-		getline(ifs, tempString);
-		getline(ifs, tempString);  //get first line of numbers representing columns
-		Direction orientation;
-		bool minesweeperFound = false;
-		bool subFound = false;
-		bool frigateFound = false;
-		bool battleshipFound = false;
-		bool carrierFound = false;
-		//static const short shipSize[SHIP_SIZE_ARRAYSIZE] = { 0, 2, 3, 3, 4, 5 }; // just here for reference..
-		for (short row = 0; row < numberOfRows; row++) // Read in game grid cells 1 at a time
+
+
+		short numberOfRows = (toupper(fsize) == 'L') ? LARGEROWS : SMALLROWS;
+		short numberOfCols = (toupper(fsize) == 'L') ? LARGECOLS : SMALLCOLS;
+
+		for (short j = 1; j < SHIP_SIZE_ARRAYSIZE; j++)
 		{
-			cell = ifs.get(); //get first char of each row to ignore A-H letters representing rows
-			cell = ifs.get();// junk char
-			cell = ifs.get();// next needed cell
-			for (short col = 0; col < numberOfCols; col++)
+			use_ship = 'Y';
+			location = CCell(0, 0);
+			//too_high = 0;
+			getline(ifs, line);
+			input = line.at(0);
+			m_ships[j].setOrientation((input == 'V') ? VERTICAL : HORIZONTAL);
+
+			row = (line.at(2));
+			col = (line.at(4));
+			if (((row - '0') < (-1)) || ((row - '0') > numberOfRows) ||
+				((col - '0') < (-1)) || ((col - '0') > numberOfCols))
 			{
-				CCell tempCell(row, col);
-				switch (cell)  // Mark cell on players game grid, set Ship struct properties on first pass
-				{
-				case ' ':
-					m_gameGrid[MYGRID][row][col] = NOSHIP;
-					break;
-				case 'M': m_gameGrid[MYGRID][row][col] = MINESWEEPER;
-					if (minesweeperFound == false)
-					{
-						orientation = (m_gameGrid[MYGRID][row][col + 1] == 'M') ? HORIZONTAL : VERTICAL;
-						CDirection dir(orientation);
-						setShipInfo(dir, tempCell, MINESWEEPER, shipSize[static_cast<short>(MINESWEEPER)]);
-						minesweeperFound = true;
-					}
-					break;
-				case 'S': m_gameGrid[MYGRID][row][col] = SUB;
-					if (subFound == false)
-					{
-						orientation = (m_gameGrid[MYGRID][row][col + 1] == 'S') ? HORIZONTAL : VERTICAL;
-						CDirection dir(orientation);
-						setShipInfo(dir, tempCell, SUB, shipSize[static_cast<short>(SUB)]);
-						subFound = true;
-					}
-					break;
-				case 'F': m_gameGrid[MYGRID][row][col] = FRIGATE;
-					if (frigateFound == false)
-					{
-						orientation = (m_gameGrid[MYGRID][row][col + 1] == 'F') ? HORIZONTAL : VERTICAL;
-						CDirection dir(orientation);
-						setShipInfo(dir, tempCell, FRIGATE, shipSize[static_cast<short>(FRIGATE)]);
-						frigateFound = true;
-					}
-					break;
-				case 'B': m_gameGrid[MYGRID][row][col] = BATTLESHIP;
-					if (battleshipFound == false)
-					{
-						orientation = (m_gameGrid[MYGRID][row][col + 1] == 'B') ? HORIZONTAL : VERTICAL;
-						CDirection dir(orientation);
-						setShipInfo(dir, tempCell, BATTLESHIP, shipSize[static_cast<short>(BATTLESHIP)]);
-						battleshipFound = true;
-					}
-					break;
-				case 'C': m_gameGrid[MYGRID][row][col] = CARRIER;
-					if (carrierFound == false)
-					{
-						orientation = (m_gameGrid[MYGRID][row][col + 1] == 'C') ? HORIZONTAL : VERTICAL;
-						CDirection dir(orientation);
-						setShipInfo(dir, tempCell, CARRIER, shipSize[static_cast<short>(CARRIER)]);
-						carrierFound = true;
-					}
-					break;
-				}
-				cell = ifs.get(); //junk chars
-				cell = ifs.get();
-				cell = ifs.get();
+				cout << "[" << shipNames[j] << "] is out of bounds. " <<
+					"This ship will not be loaded." << endl;
+				m_ships[j].setPiecesLeft(0);
+				m_piecesLeft -= shipSize[j];
+				continue;
 			}
-			getline(ifs, tempString); // junk line
-		}
-		printGrid(cout, MYGRID);
-		ifs.close();
+			//checks if '/' is in both locations, indicating the save file excluded that ship
+			if ((row == '/') && (col == '/'))
+			{
+				use_ship = 'N';
+			}
+			else
+			{
+				row -= '0';
+				col -= '0';
+				location = CCell(row, col);
+				m_ships[j].setBowLocation(location);
+
+				ship_type = static_cast<Ship>(j);
+				m_gameGrid[MYGRID][location.get_row()][location.get_col()] = ship_type; //break point
+			}
+
+
+			if (use_ship == 'Y')
+			{
+
+				location = CCell(row, col);
+				ship_type = static_cast<Ship>(j);
+				setCell(MYGRID, location, ship_type);
+				for (int i = 0; i < shipSize[j]; i++)
+				{
+					if (input == 'V')
+					{
+						m_gameGrid[MYGRID][location.get_row() + i][location.get_col()] = ship_type;
+					}
+					else
+					{
+						m_gameGrid[MYGRID][location.get_row()][location.get_col() + i] = ship_type;
+					}
+				}
+				if (j == 1)
+				{
+					m_ships[j].setName(MINESWEEPER);
+					m_ships[j].setPiecesLeft(2);
+				}
+				else if (j == 2)
+				{
+					m_ships[j].setName(SUB);
+					m_ships[j].setPiecesLeft(3);
+				}
+				else if (j == 3)
+				{
+					m_ships[j].setName(FRIGATE);
+					m_ships[j].setPiecesLeft(3);
+				}
+				else if (j == 4)
+				{
+					m_ships[j].setName(BATTLESHIP);
+					m_ships[j].setPiecesLeft(4);
+				}
+				else if (j == 5)
+				{
+					m_ships[j].setName(CARRIER);
+					m_ships[j].setPiecesLeft(5);
+				}
+			}
+			else
+			{
+				cout << "File does not contain [" << shipNames[j] << "] " << endl;
+				m_ships[j].setPiecesLeft(0);
+				m_piecesLeft -= shipSize[j];
+			}
+		} // end for j
+
+		  /*save = safeChoice("\nSave starting grid?", 'Y', 'N');
+		  if (save == 'Y')
+		  saveGrid(players, whichPlayer, fsize);*/
+		cout << endl << "Successfully loaded save file." <<
+			endl << "You have " << m_piecesLeft << " total fleet pieces." << endl << "Press <enter> to continue.." << endl;
+		cin.clear();
+		cin.ignore(FILENAME_MAX, '\n');
+		cin.get();
 		return true;
 	}
 
@@ -481,7 +639,13 @@ namespace DV_STF
 		outputFileName += ".shp";
 		outputFileStream.open(outputFileName);			          //Open filestream
 		outputFileStream << m_gridSize << endl;	   //Output char code for grid size
-		printGrid(outputFileStream, 0);
+		for (short i = 1; i < SHIP_SIZE_ARRAYSIZE; i++)
+		{
+			outputFileStream << m_ships[i].getOrientation() <<
+				" " << static_cast<char>(m_ships[i].getBowLocation().get_row() + '0') <<
+				"," << static_cast<char>(m_ships[i].getBowLocation().get_col() + '0') << endl;
+		}
+		outputFileStream << endl;
 		cin.ignore(FILENAME_MAX, '\n');
 		outputFileStream.close();
 		cout << outputFileName << " saved." << endl;
