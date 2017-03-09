@@ -8,13 +8,28 @@
 //			
 //			
 //----------------------------------------------------------------------------
-
 #include "csinkthefleet.h"
 
 using namespace std;
 
 namespace DV_STF
 {
+	//----------------------------------------------------------------------------
+	//	Class:         CSinkTheFleet
+	//	method:        short CSinkTheFleet::play()
+	//	description:   plays the game
+	//	Input:         None 
+	//	Output:        Contents to ostream
+	//	Calls:         setGridSize(), setShips(), getGrid(), printGrid(),
+	//					inputCoordinates(), getCell()
+	//	Called By:     CSinkTheFleet object
+	//	Parameters:	   N/A
+	//	Returns:       winning player index 
+	//	History Log:
+	//	               2017-03-04 DV  completed version 1.0
+	//				   2017-03-05 DV  completed version 1.1
+	//				   2017-03-09 DV  completed version 1.2
+	//----------------------------------------------------------------------------
 	short CSinkTheFleet::play()
 	{
 		char from_file = 'Y';
@@ -159,7 +174,19 @@ namespace DV_STF
 	
 
 	
-
+	 //----------------------------------------------------------------------------
+	 //	Class:         CSinkTheFleet
+	 //	method:        void CSinkTheFleet::header(ostream& sout)
+	 //	description:   prints the header box
+	 //	Input:         None 
+	 //	Output:        Contents to ostream& sout
+	 //	Calls:         textGraphics functions
+	 //	Called By:     CSinkTheFleet object
+	 //	Parameters:	   ostream& sout
+	 //	Returns:       N/A
+	 //	History Log:
+	 //	               2017-03-04 DV  completed version 1.0
+	 //----------------------------------------------------------------------------
 	void CSinkTheFleet::header(ostream& sout)
 	{
 		const string empty;
@@ -175,6 +202,20 @@ namespace DV_STF
 		boxBottom(sout, BOXWIDTH);
 	}
 
+
+	//----------------------------------------------------------------------------
+	//	Class:         CSinkTheFleet
+	//	method:        void CSinkTheFleet::endBox(short player)
+	//	description:   prints the end box
+	//	Input:         None 
+	//	Output:        Contents to ostream& sout
+	//	Calls:         textGraphics functions
+	//	Called By:     CSinkTheFleet object
+	//	Parameters:	   short player
+	//	Returns:       N/A
+	//	History Log:
+	//	               2017-03-04 DV  completed version 1.0
+	//----------------------------------------------------------------------------
 	void CSinkTheFleet::endBox(short player)
 	{
 		const string empty;
