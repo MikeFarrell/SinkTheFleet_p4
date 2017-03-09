@@ -73,15 +73,15 @@ namespace DV_STF
 
 					coord.inputCoordinates(cin, YOURGRID);
 
-					shipHit = m_players[!whichPlayer].getCell(MYGRID, coord);
-
+					//shipHit = m_players[!whichPlayer].getCell(MYGRID, coord);
+					CShip tempShip = m_players[!whichPlayer].getCell(MYGRID, coord); 
 
 					//If the space is not empty
-					if (shipHit != NOSHIP)
+					if (tempShip.getShip() != NOSHIP)
 					{
 						system("cls");
 						//if space has already been hit
-						if (shipHit == HIT)
+						if (tempShip.getShip() == HIT)
 						{
 							m_players[whichPlayer].printGrid(cout, YOURGRID);
 							cout << "THIS SPACE HAS PREVIOUSLY BEEN HIT." <<
@@ -89,7 +89,7 @@ namespace DV_STF
 						}
 						//without this the program will detect 
 						//re-firing at a missed cell as a hit
-						else if (shipHit == MISSED)
+						else if (tempShip.getShip() == MISSED)
 						{
 							m_players[whichPlayer].printGrid(cout, YOURGRID);
 							cout << "THIS SPACE HAS PREVIOUSLY BEEN MISSED." <<
@@ -97,18 +97,18 @@ namespace DV_STF
 						}
 						else
 						{
-							m_players[!whichPlayer].hitShip(shipHit);
-
+							m_players[!whichPlayer].hitShip(tempShip);
+							
 							//adjust grid for hit
 							m_players[!whichPlayer].setCell(MYGRID, coord, HIT);
 							m_players[whichPlayer].setCell(YOURGRID, coord, HIT);
 							m_players[whichPlayer].printGrid(cout, YOURGRID);
 							cout << "HIT" << endl;
 
-							if (m_players[!whichPlayer][shipHit].isSunk())
+							if (m_players[!whichPlayer][tempShip].isSunk())
 							{
-								cout << shipNames[shipHit] <<
-									" is destroyed." << endl;
+								tempShip.printName(cout);
+								cout << " is destroyed." << endl;
 							}
 							if (m_players[!whichPlayer].getPiecesLeft() == 0)
 							{
