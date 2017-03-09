@@ -1,5 +1,8 @@
 
 # SinkTheFleet_p4
+
+If you guys want, try the version in the branch I made, using the Player1.shp and Player2.shp files. I will be working on that version. -JW
+
 Hey ya, that saveGrid and getGrid() we had earlier was working fine. 
 I'm reverting back to last working version.  -jr
 
