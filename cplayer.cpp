@@ -49,7 +49,9 @@ namespace DV_STF
 			orientation = this[m_whichPlayer].m_ships[j].getOrientation();
 			cout << "Player " << m_whichPlayer + 1 << " Enter " << shipNames[j] <<
 				" bow coordinates <row letter><col #>: ";
-			this[m_whichPlayer].m_ships[j].getBowLocation() = m_ships[m_whichPlayer].getBowLocation().inputCoordinates(cin, m_gridSize);
+			
+			//this[m_whichPlayer].m_ships[j].getBowLocation() = m_ships[m_whichPlayer].getBowLocation().inputCoordinates(cin, m_gridSize);
+			location = m_ships[m_whichPlayer].getBowLocation().inputCoordinates(cin, m_gridSize);
 
 			// if ok
 			if (!isValidLocation(j))
@@ -60,7 +62,8 @@ namespace DV_STF
 				continue;
 			}
 
-			location = this[m_whichPlayer].m_ships[j].getBowLocation();
+			//location = this[m_whichPlayer].m_ships[j].getBowLocation();
+			this[m_whichPlayer].m_ships[j].getBowLocation() = location;
 			ship_type = static_cast<Ship>(j);
 			this[m_whichPlayer].m_gameGrid[0]
 				[location.get_row()][location.get_col()] = ship_type;
@@ -160,8 +163,8 @@ namespace DV_STF
 			exit(EXIT_FAILURE);
 		}
 	}//end void CPlayer::allocMem()
-	
-	// deleteMem() original style.  For both players at same time. 
+
+	 // deleteMem() original style.  For both players at same time. 
 	void CPlayer::deleteMem(CPlayer players[], char size)
 	{
 		{
@@ -301,7 +304,7 @@ namespace DV_STF
 		m_gridSize = fsize;
 		short numberOfRows = (toupper(m_gridSize) == 'L') ? LARGEROWS : SMALLROWS;
 		short numberOfCols = (toupper(m_gridSize) == 'L') ? LARGECOLS : SMALLCOLS;
-		string tempString = ""; 
+		string tempString = "";
 		getline(ifs, tempString);
 		getline(ifs, tempString);  //get first line of numbers representing columns
 		Direction orientation;
@@ -321,7 +324,7 @@ namespace DV_STF
 				CCell tempCell(row, col);
 				switch (cell)  // Mark cell on players game grid, set Ship struct properties on first pass
 				{
-				case ' ': 
+				case ' ':
 					m_gameGrid[MYGRID][row][col] = NOSHIP;
 					break;
 				case 'M': m_gameGrid[MYGRID][row][col] = MINESWEEPER;
@@ -372,7 +375,7 @@ namespace DV_STF
 				}
 				cell = ifs.get(); //junk chars
 				cell = ifs.get();
-				cell = ifs.get(); 
+				cell = ifs.get();
 			}
 			getline(ifs, tempString); // junk line
 		}
@@ -382,7 +385,7 @@ namespace DV_STF
 	}
 
 	// setShipInfo.  Loads up m_ships array. 
-	void CPlayer::setShipInfo(const Direction & dir, const CCell & cell, 
+	void CPlayer::setShipInfo(const Direction & dir, const CCell & cell,
 		const Ship & ship, const short & piecesOfShip)
 	{
 		short shipNum = static_cast<short>(ship);
