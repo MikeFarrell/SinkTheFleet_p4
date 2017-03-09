@@ -11,7 +11,7 @@ int main()
 	char again = 'N';
 
 	do {
-		game = DV_STF::CSinkTheFleet();
+		//game = DV_STF::CSinkTheFleet();
 		game.play();
 
 		again = safeChoice("Would you like to play again?", 'Y', 'N');
