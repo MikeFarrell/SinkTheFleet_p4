@@ -8,8 +8,12 @@ namespace DV_STF
 	{
 		char from_file = 'Y';
 		char grid_size = 'L';
+		bool gameOver = false;
+		bool reshot = false;
 		short whichPlayer = 0;
 		string filename;
+		Ship shipHit = NOSHIP;
+		CCell coord;
 
 		
 
@@ -33,12 +37,100 @@ namespace DV_STF
 				cin.ignore(FILENAME_MAX, '\n');
 				cout << "Reading from file...";
 				m_players[whichPlayer].getGrid(filename);
-				m_players[whichPlayer].printGrid(cout, whichPlayer);
+				m_players[whichPlayer].printGrid(cout, MYGRID);
 				cout << "Press <enter> to continue.." << endl;
 				cin.get();
 			}
-			whichPlayer++;
-			
+
+			system("cls");
+			header(cout);
+			cout << "Press <enter> to start the battle..." << endl;
+			cin.ignore(BUFFER_SIZE, '\n');
+
+			whichPlayer = 0;
+			gameOver = false;
+			while (!gameOver)
+			{
+				do
+				{
+					m_players[whichPlayer].printGrid(cout, YOURGRID);
+					reshot = false;
+					cout << "Player " << whichPlayer + 1 <<
+						", Enter Coordinates for Firing." << endl;
+
+					coord.inputCoordinates(cin, YOURGRID);
+
+					shipHit = m_players[!whichPlayer].getCell(MYGRID, coord);
+
+
+					//If the space is not empty
+					if (shipHit != NOSHIP)
+					{
+						system("cls");
+						//if space has already been hit
+						if (shipHit == HIT)
+						{
+							m_players[whichPlayer].printGrid(cout, YOURGRID);
+							cout << "THIS SPACE HAS PREVIOUSLY BEEN HIT." <<
+								endl;
+						}
+						//without this the program will detect 
+						//re-firing at a missed cell as a hit
+						else if (shipHit == MISSED)
+						{
+							m_players[whichPlayer].printGrid(cout, YOURGRID);
+							cout << "THIS SPACE HAS PREVIOUSLY BEEN MISSED." <<
+								endl;
+						}
+						else
+						{
+							m_players[whichPlayer].hitShip(shipHit);
+
+							//adjust grid for hit
+							m_players[!whichPlayer].setCell(MYGRID, coord, HIT);
+							m_players[whichPlayer].setCell(YOURGRID, coord, HIT);
+							m_players[whichPlayer].printGrid(cout, YOURGRID);
+							cout << "HIT" << endl;
+
+							if (m_players[!whichPlayer][shipHit].isSunk())
+							{
+								cout << shipNames[shipHit] <<
+									" is destroyed." << endl;
+							}
+							if (m_players[!whichPlayer].getPiecesLeft() == 0)
+							{
+								gameOver = true;
+								cout << "Enemy fleet has been destroyed." <<
+									endl;
+								cin.ignore(BUFFER_SIZE, '\n');
+								system("cls");
+								break;
+							}
+						}
+						reshot = true;
+
+					}
+					else
+					{
+						//adjust for miss
+						m_players[!whichPlayer].setCell(MYGRID, coord, MISSED);
+						m_players[whichPlayer].setCell(YOURGRID, coord, MISSED);
+						m_players[whichPlayer].printGrid(cout, YOURGRID);
+						cout << "MISS" << endl;
+					}
+
+					cout << "Press <enter> to continue." << endl;
+					cin.ignore(BUFFER_SIZE, '\n');
+					system("cls");
+				} while (reshot);
+
+				if (gameOver)
+					break;
+				whichPlayer = !whichPlayer;  // switch players
+			}
+
+			//show ending dialouge w/ winner
+			endBox(whichPlayer);
 		}
 
 		return whichPlayer;
