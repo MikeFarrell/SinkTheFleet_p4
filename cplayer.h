@@ -28,10 +28,11 @@ namespace DV_STF
 			
 			//initializeShips() // need something here to 'initialize' player's ship array
 		}
+		CPlayer(const CPlayer & player);					//Deep copy constructor
 		~CPlayer() {};
-		//CPlayer copy(void) const;					//Deep copy constructor
-
+		
 		//operator=									//Deep copy assignment
+		CPlayer & operator=(const CPlayer & player);
 
 		// INLINE 
 		unsigned short getWhichPlayer() const { return m_whichPlayer; }
@@ -51,7 +52,7 @@ namespace DV_STF
 		
 		void setShips();	//allow player to setup ship
 		void hitShip(CShip ship); //Decrement pieces left for ship & for fleet
-		bool isValidLocation(short whichShip); // the index # of which ship in array
+		bool isValidLocation(short shipNumber); // the index # of which ship in array
 		CShipInfo operator[](short index) const;
 		CPlayer operator--();
 		CPlayer operator--(int);

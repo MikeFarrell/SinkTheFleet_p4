@@ -4,6 +4,31 @@ using namespace std;
 
 namespace DV_STF
 {
+	// Copy constructor.  Deep copy
+	CPlayer::CPlayer(const CPlayer & player) 
+	{
+		*this = player;
+	}
+
+	// Assignment operator =. Deep copies.
+	CPlayer & CPlayer::operator=(const CPlayer & player)
+	{
+		m_whichPlayer = player.m_whichPlayer;
+		m_piecesLeft = player.m_piecesLeft;
+		for (size_t i = 0; i < SHIP_SIZE_ARRAYSIZE; i++)
+		{
+			m_ships[i] = player.m_ships[i];
+		}
+		m_gridSize = player.m_gridSize;
+		// Copy m_gameGrid
+		short numberOfRows = (toupper(m_gridSize) == 'L') ? LARGEROWS : SMALLROWS;
+		short numberOfCols = (toupper(m_gridSize) == 'L') ? LARGECOLS : SMALLCOLS;
+		for (size_t whichPlayer = 0; whichPlayer < NUMPLAYERS; whichPlayer++)
+			for (size_t i = 0; i < numberOfRows; i++)
+				for (size_t j = 0; j < numberOfCols; j++)
+					m_gameGrid[whichPlayer][i][j] = player.m_gameGrid[whichPlayer][i][j];
+		return *this;
+	}
 
 	CShipInfo CPlayer::operator[](short index) const
 	{
