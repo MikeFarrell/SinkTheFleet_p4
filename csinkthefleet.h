@@ -21,9 +21,15 @@ namespace DV_STF
 		CSinkTheFleet(char gridSize = 'L') 
 			: m_gridSize(gridSize) {};
 
+		short play(); //plays the game
+		CSinkTheFleet operator[](short index); //validate and return m_players[index]
+		CSinkTheFleet operator[](short index) const; //validate and return m_players[index]
+		static void header(ostream& sout);
+		static void endBox(short player);
+
 	private:
-		CPlayer m_players[2];
-		char m_gridSize;
+		CPlayer m_players[2]; //the two players
+		char m_gridSize; //'L' or 'S'
 	};
 }
 #endif
