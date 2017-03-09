@@ -19,30 +19,36 @@ namespace DV_STF
 
 		for (whichPlayer = 0; whichPlayer < NUMPLAYERS; whichPlayer++)
 		{
-			system("cls");
-			DV_STF::CSinkTheFleet::header(cout);
-			cout << "Player " << whichPlayer + 1 << ", ";
-			from_file =
-				safeChoice("Would you like to read starting grid from a file?",
-					'Y', 'N');
-			if (from_file == 'N')
+			for (int i = 0; i < 2; i++)
 			{
-				grid_size = safeChoice("Enter desired grid size: ", 'L', 'S');
-				m_players[whichPlayer].setGridSize(grid_size);
-				m_players[whichPlayer].setShips();
+				system("cls");
+				DV_STF::CSinkTheFleet::header(cout);
+				cout << "Player " << whichPlayer + 1 << ", ";
+				from_file =
+					safeChoice("Would you like to read starting grid from a file?",
+						'Y', 'N');
+				if (from_file == 'N')
+				{
+					if (i == 0)
+					{
+						grid_size = safeChoice("Enter desired grid size: ", 'L', 'S');
+					}
+					m_players[whichPlayer].setGridSize(grid_size);
+					m_players[whichPlayer].setShips();
+				}
+				else if (from_file == 'Y')
+				{
+					cout << "Enter file name: ";
+					cin >> filename;
+					cin.ignore(FILENAME_MAX, '\n');
+					cout << "Reading from file...";
+					m_players[whichPlayer].getGrid(filename);
+					m_players[whichPlayer].printGrid(cout, MYGRID);
+					cout << "Press <enter> to continue.." << endl;
+					cin.get();
+				}
+				whichPlayer++;
 			}
-			else if (from_file == 'Y')
-			{
-				cout << "Enter file name: ";
-				cin >> filename;
-				cin.ignore(FILENAME_MAX, '\n');
-				cout << "Reading from file...";
-				m_players[whichPlayer].getGrid(filename);
-				m_players[whichPlayer].printGrid(cout, MYGRID);
-				cout << "Press <enter> to continue.." << endl;
-				cin.get();
-			}
-
 			system("cls");
 			header(cout);
 			cout << "Press <enter> to start the battle..." << endl;
