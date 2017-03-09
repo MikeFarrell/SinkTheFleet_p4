@@ -43,39 +43,33 @@ using namespace std;
 //				3/04/2017 dark vader completed v 1.0
 //     
 //-----------------------------------------------------------------------------
-class CCell
+namespace DV_STF
 {
-public:
-	static const short NUMPLAYERS = 2;	// number of players in game
-	static const short SMALLROWS = 8;	// number of rows/columns in small sea array 
-	static const short LARGEROWS = 10;	// number of rows/columns in large sea array
-	static const short SMALLCOLS = 12;	// number of rows/columns in small sea array 
-	static const short LARGECOLS = 24;	// number of rows/columns in large sea array
-	static const short BOXWIDTH = 79;	// maximum screen line length
-	static const short ASCIIA = 65; // value of A in ASCII
-	static const short ONE = 1;
 
-	CCell(unsigned short row = 0, unsigned short col = 0)
+	class CCell
 	{
-		m_row = row; m_col = col;
-	}
-	void printCoord(ostream& sout)
-	{
-		cout << static_cast<char>(m_row + ASCIIA + ONE) << m_col + ONE;
-	}
-	void inputCoordinates(istream& sin, char size);
-	unsigned short get_row() { return m_row; }
-	unsigned short get_col() { return m_col; }
-	void print() { printCoord(cout); }
-	void increaseCol() { m_col++; }
-	void increaseRow() { m_row++; }
+	public:
+		CCell(unsigned short row = 0, unsigned short col = 0)
+		{
+			m_row = row; m_col = col;
+		}
+		void printCoord(ostream& sout)
+		{
+			cout << static_cast<char>(m_row + 'A' + 1) << m_col + 1;
+		}
+		CCell inputCoordinates(istream& sin, char size);
+		unsigned short get_row() { return m_row; }
+		unsigned short get_col() { return m_col; }
+		void print() { printCoord(cout); }
+		void increaseCol() { m_col++; }
+		void increaseRow() { m_row++; }
 
-private:
-	unsigned short m_row;	// row
-	unsigned short m_col;	// column
-};
-ostream& operator<<(ostream& sout, CCell& cell);
-
+	private:
+		unsigned short m_row;	// row
+		unsigned short m_col;	// column
+	};
+	ostream& operator<<(ostream& sout, CCell& cell);
+}
 #endif
 
 

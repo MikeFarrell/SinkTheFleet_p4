@@ -26,6 +26,98 @@ namespace DV_STF
 		return temp;
 	}
 
+
+	void CPlayer::setShips()
+	{
+		char input = 'V';
+		char ok = 'Y';
+		char save = 'N';
+		Ship ship_type;
+		Direction orientation;
+		ostringstream outSStream;
+		CCell location;
+		for (short j = 1; j < SHIP_SIZE_ARRAYSIZE; j++)
+		{
+			system("cls");
+			printGrid(cout, getWhichPlayer());
+			outSStream.str("");
+			outSStream << "Player " << m_whichPlayer + 1 << " Enter "
+				<< shipNames[j] << " orientation";
+			input = safeChoice(outSStream.str(), 'V', 'H');
+			this[m_whichPlayer].m_ships[j].getOrientation()
+				= (input == 'V') ? VERTICAL : HORIZONTAL;
+			orientation = this[m_whichPlayer].m_ships[j].getOrientation();
+			cout << "Player " << m_whichPlayer + 1 << " Enter " << shipNames[j] <<
+				" bow coordinates <row letter><col #>: ";
+			this[m_whichPlayer].m_ships[j].getBowLocation() = m_ships[m_whichPlayer].getBowLocation().inputCoordinates(cin, m_gridSize);
+
+			// if ok
+			if (!isValidLocation(j))
+			{
+				cout << "invalid location. Press <enter>";
+				cin.get();
+				j--; // redo
+				continue;
+			}
+
+			location = this[m_whichPlayer].m_ships[j].getBowLocation();
+			ship_type = static_cast<Ship>(j);
+			this[m_whichPlayer].m_gameGrid[0]
+				[location.get_row()][location.get_col()] = ship_type;
+
+			for (int i = 0; i < shipSize[j]; i++)
+			{
+				if (input == 'V')
+				{
+					this[m_whichPlayer].m_gameGrid[0]
+						[location.get_row() + i][location.get_col()] = ship_type;
+				}
+				else
+				{
+					this[m_whichPlayer].m_gameGrid[0]
+						[location.get_row()][location.get_col() + i] = ship_type;
+				}
+				//i++;
+			}
+			if (j == 1)
+			{
+				this[m_whichPlayer].m_ships[j].setName(MINESWEEPER);
+				this[m_whichPlayer].m_ships[j].setPiecesLeft(2);
+			}
+			else if (j == 2)
+			{
+				this[m_whichPlayer].m_ships[j].setName(SUB);
+				this[m_whichPlayer].m_ships[j].setPiecesLeft(3);
+			}
+			else if (j == 3)
+			{
+				this[m_whichPlayer].m_ships[j].setName(FRIGATE);
+				this[m_whichPlayer].m_ships[j].setPiecesLeft(3);
+			}
+			else if (j == 4)
+			{
+				this[m_whichPlayer].m_ships[j].setName(BATTLESHIP);
+				this[m_whichPlayer].m_ships[j].setPiecesLeft(4);
+			}
+			else if (j == 5)
+			{
+				this[m_whichPlayer].m_ships[j].setName(CARRIER);
+				this[m_whichPlayer].m_ships[j].setPiecesLeft(5);
+			}
+
+		} // end for j
+		printGrid(cout, getWhichPlayer());
+		save = safeChoice("\nSave starting grid?", 'Y', 'N');
+		if (save == 'Y')
+			saveGrid();
+	}
+
+	bool CPlayer::isValidLocation(short whichShip)
+	{
+		return true;
+	}
+
+
 	// allocMem() original style.  For both players at same time
 	void CPlayer::allocMem(CPlayer players[], char size)
 	{
@@ -164,7 +256,7 @@ namespace DV_STF
 		{
 			os << (char)i;					       //print out letter for each row
 			for (short col = 0; col < numberOfCols; col++)
-				m_gameGrid[grid][row][col].print();          //Print char code for ship		
+				m_gameGrid[m_whichPlayer][row][col].print();          //Print char code for ship		
 			os << endl << HORIZ;						//Print out horizontal bar
 			for (short h = 0; h < numberOfCols; h++)
 				os << HORIZ << HORIZ << CR;

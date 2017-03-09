@@ -33,7 +33,7 @@ namespace DV_STF
 				cin.ignore(FILENAME_MAX, '\n');
 				cout << "Reading from file...";
 				m_players[whichPlayer].getGrid(filename);
-				m_players[whichPlayer].printGrid(cout);
+				m_players[whichPlayer].printGrid(cout, whichPlayer);
 				cout << "Press <enter> to continue.." << endl;
 				cin.get();
 			}
