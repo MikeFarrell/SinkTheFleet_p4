@@ -7,12 +7,11 @@ using namespace std;
 
 int main()
 {
-	DV_STF::CSinkTheFleet j;
+	DV_STF::CSinkTheFleet game;
 	char again = 'N';
 
 	do {
-
-
+		game.play();
 
 		again = safeChoice("Would you like to play again?", 'Y', 'N');
 	} while (again == 'Y');
