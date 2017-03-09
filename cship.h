@@ -30,8 +30,8 @@ namespace DV_STF
 	const short LARGECOLS = 24;	// number of rows/columns in large sea array
 	const short BOXWIDTH = 79;	// maximum screen line length
 
-	static const short shipSize[SHIP_SIZE_ARRAYSIZE] = { 0, 2, 3, 3, 4, 5 };
 	static const short SHIP_SIZE_ARRAYSIZE = 6;
+	static const short shipSize[SHIP_SIZE_ARRAYSIZE] = { 0, 2, 3, 3, 4, 5 };
 	static const char* shipNames[SHIP_SIZE_ARRAYSIZE] =
 	{ "No Ship", "Mine Sweeper", "Submarine", "Frigate",
 		"Battleship", "Aircraft Carrier" };
