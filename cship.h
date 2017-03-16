@@ -82,7 +82,6 @@ namespace DV_STF
 			: m_ship(ship) {}
 
 		operator Ship() const { return m_ship; }
-		Ship getShip(void) { return m_ship; }
 
 		void print(ostream & sout) const;
 		void print() const { print(cout); }

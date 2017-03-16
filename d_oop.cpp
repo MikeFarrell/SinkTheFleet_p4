@@ -49,12 +49,12 @@ using namespace std;
 
 int main()
 {
-	using namespace DV_STF;
+	DV_STF::CSinkTheFleet game;
 	char again = 'N';
 	short winner;
 
 	do {
-		CSinkTheFleet game;
+		
 		winner = game.play();
 		game.endBox(winner);
 		again = safeChoice("Would you like to play again?", 'Y', 'N');
