@@ -54,6 +54,8 @@ namespace DV_STF
 	//			void setGridSize(const char size) { m_gridSize = size; }
 	//			void setCell(const short & whichGrid, CCell & cell, const CShip & ship)
 	//		Non-Inline:
+	//			void autoSetShips(void);
+	//			bool autoValidate(short shipNumber);
 	//			CPlayer & operator=(const CPlayer& old);
 	//			void setShipInfo(const Direction & dir, const CCell & cell, const Ship & ship, const short & piecesOfShip);
 	//			void printGrid(ostream& os, const short grid) const;
@@ -117,6 +119,8 @@ namespace DV_STF
 		} // set the proper cell to ship
 
 // NON-INLINE
+		void autoSetShips(void);
+		bool autoValidate(short shipNumber);
 		CPlayer & operator=(const CPlayer& old);
 
 		void setShipInfo(const Direction & dir, const CCell & cell, const Ship & ship, const short & piecesOfShip);

@@ -18,6 +18,7 @@
 //					Mike Farrell
 //					Jeremiah Robinson
 //					Sung Kim
+//					Chao Jiang
 // 
 // Date:		2017-03-09
 //
@@ -49,12 +50,12 @@ using namespace std;
 
 int main()
 {
-	DV_STF::CSinkTheFleet game;
+	using namespace DV_STF;
 	char again = 'N';
 	short winner;
 
 	do {
-		
+		CSinkTheFleet game;
 		winner = game.play();
 		game.endBox(winner);
 		again = safeChoice("Would you like to play again?", 'Y', 'N');
